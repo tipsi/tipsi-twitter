@@ -1,0 +1,41 @@
+{
+  "name": "react-native-twitter-sdk",
+  "version": "0.0.1",
+  "description": "Twitter sdk for react-native",
+  "main": "src/index.js",
+  "scripts": {
+    "ci": "scripts/local-ci.sh",
+    "test:ios": "xcodebuild -project ios/TPSStore.xcodeproj/ -scheme 'TPSStoreTests' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test",
+    "test:android": "cd android && ./gradlew test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tipsi/native-store.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "native-store",
+    "ios",
+    "android"
+  ],
+  "author": "Tipsi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tipsi/native-store/issues"
+  },
+  "homepage": "https://github.com/tipsi/native-store#readme",
+  "peerDependencies": {
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "eslint": "^3.7.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
+    "react": "15.4.1",
+    "react-native": "0.38.0"
+  }
+}
