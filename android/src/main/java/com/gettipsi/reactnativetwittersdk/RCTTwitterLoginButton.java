@@ -21,76 +21,66 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 public class RCTTwitterLoginButton extends TwitterLoginButton {
 
-    private static final String TAG = RCTTwitterLoginButton.class.getSimpleName();
-    private ReactContext reactContext;
+  private static final String TAG = RCTTwitterLoginButton.class.getSimpleName();
+  private ReactContext reactContext;
 
-    public RCTTwitterLoginButton(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
+  public RCTTwitterLoginButton(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+  }
 
-    public RCTTwitterLoginButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+  public RCTTwitterLoginButton(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
 
-    public RCTTwitterLoginButton(Context context, ReactContext reactContext) {
-        super(context);
-        this.reactContext = reactContext;
-        init();
-    }
+  public RCTTwitterLoginButton(Context context, ReactContext reactContext) {
+    super(context);
+    this.reactContext = reactContext;
+    init();
+  }
 
 
-    private void init(){
-        this.setCallback(new Callback<TwitterSession>() {
-            @Override
-            public void success(Result<TwitterSession> loginResult) {
-                Log.d(TAG, "success: ");
-                final TwitterSession session = loginResult.data;
-                final TwitterAuthToken authToken = session.getAuthToken();
+  private void init() {
+    this.setCallback(new Callback<TwitterSession>() {
+      @Override
+      public void success(Result<TwitterSession> loginResult) {
+        Log.d(TAG, "success: ");
+        final TwitterSession session = loginResult.data;
+        final TwitterAuthToken authToken = session.getAuthToken();
 
-                final WritableMap event = Arguments.createMap();
-                event.putString("type", "loginFinished");
-                event.putString("error", null);
-                final WritableMap result = Arguments.createMap();
-                result.putBoolean("isCancelled", false);
-                result.putString("userId", String.valueOf(session.getUserId()));
-                result.putString("userName", session.getUserName());
-                final WritableMap token = Arguments.createMap();
-                token.putInt("describeContents", authToken.describeContents());
-                token.putBoolean("isExpired", authToken.isExpired());
-                token.putString("token", authToken.token);
-                token.putString("secret", authToken.secret);
-                result.putMap("authToken", token);
-//                result.putArray(
-//                        "grantedPermissions",
-//                        Arguments.fromJavaArgs(
-//                                setToStringArray(loginResult.getRecentlyGrantedPermissions())));
-//                result.putArray(
-//                        "declinedPermissions",
-//                        Arguments.fromJavaArgs(
-//                                setToStringArray(loginResult.getRecentlyDeniedPermissions())));
-                event.putMap("result", result);
-//                ReactContext context = (ReactContext) getContext();
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
-                        getId(),
-                        "topChange",
-                        event);
-            }
+        final WritableMap event = Arguments.createMap();
+        event.putString("type", "loginFinished");
+        event.putString("error", null);
+        final WritableMap result = Arguments.createMap();
+        result.putBoolean("isCancelled", false);
+        result.putString("userId", String.valueOf(session.getUserId()));
+        result.putString("userName", session.getUserName());
+        final WritableMap token = Arguments.createMap();
+        token.putInt("describeContents", authToken.describeContents());
+        token.putBoolean("isExpired", authToken.isExpired());
+        token.putString("token", authToken.token);
+        token.putString("secret", authToken.secret);
+        result.putMap("authToken", token);
+        event.putMap("result", result);
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+          getId(),
+          "topChange",
+          event);
+      }
 
-            @Override
-            public void failure(TwitterException exception) {
-                Log.d(TAG, "failure: ");
-                final WritableMap event = Arguments.createMap();
-                event.putString("type", "loginFinished");
-                event.putString("error", exception.getMessage());
-                final WritableMap result = Arguments.createMap();
-                result.putBoolean("isCancelled", false);
-                event.putMap("result", result);
-//                final ReactContext context = (ReactContext) getContext();
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
-                        getId(),
-                        "topChange",
-                        event);
-            }
-        });
-    }
+      @Override
+      public void failure(TwitterException exception) {
+        Log.d(TAG, "failure: " + exception.getMessage());
+        final WritableMap event = Arguments.createMap();
+        event.putString("type", "loginFinished");
+        event.putString("error", exception.getMessage());
+        final WritableMap result = Arguments.createMap();
+        result.putBoolean("isCancelled", false);
+        event.putMap("result", result);
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+          getId(),
+          "topChange",
+          event);
+      }
+    });
+  }
 }
