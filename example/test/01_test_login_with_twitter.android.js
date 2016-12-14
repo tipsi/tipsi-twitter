@@ -3,7 +3,7 @@ import helper from './utils/helper'
 
 const { driver, idFromAccessId, idFromXPath } = helper
 
-test('Test sample auth in Tipsi with Twitter', async(t) => {
+test('Test sample auth with Twitter', async(t) => {
 
   const loginButton = idFromAccessId('loginButton')
 
@@ -22,7 +22,7 @@ test('Test sample auth in Tipsi with Twitter', async(t) => {
      android.webkit.WebView[1]/android.view.View[2]/android.view.View[4]/android.widget.Button[1]`)
 
   const errorText = idFromAccessId('error_message')
-  const tipsiResponseText = idFromAccessId('tipsi_response')
+  const twitterResponseText = idFromAccessId('twitter_response')
 
   try {
 
@@ -57,10 +57,10 @@ test('Test sample auth in Tipsi with Twitter', async(t) => {
 
     try {
 
-    await driver.waitForVisible(tipsiResponseText, 30000)
-    t.pass('tipsiResponseText should be visible')
-    const fbUserId = await driver.getText(tipsiResponseText)
-    t.pass('tipsiResponseText == '+fbUserId)
+    await driver.waitForVisible(twitterResponseText, 30000)
+    t.pass('twitterResponseText should be visible')
+    const responseText = await driver.getText(twitterResponseText)
+    t.pass('twitterResponseText == '+responseText)
 
       } catch (error) {
 

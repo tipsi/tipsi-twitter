@@ -104,7 +104,7 @@ import { TwitterLoginButton } from 'tipsi-twitter'
 
 ### Result
 
-A `result` object returned after successful Twitter auth.
+A `result` object will be returned after successful Twitter auth.
 
 ##### `token`
 
@@ -112,7 +112,7 @@ An object with the following keys:
 
 * `userName` _String_ - Twitter user name.
 * `userId` _String_ - Twitter user id.
-* `isCancelled` _Boolean_ - true if user have canceled Twitter auth.
+* `isCancelled` _Boolean_ - true if user has canceled Twitter auth.
 * `authToken` _Object_ - object with token data.
 
 ##### `authToken`
@@ -122,17 +122,13 @@ An object with the following keys:
 * `token` _String_ - Twitter token for auth in your app.
 * `secret` _String_ - Twitter secret for auth in your app.
 * `describeContents` _Number_ - For Twitter auth usualy 0.
-* `isExpired` _Boolean_ - Olways true. Twitter does not expire OAuth1a tokens.
-
-##### Example Android
-
-![Card Form](https://cloud.githubusercontent.com/assets/1177226/20572150/54192810-b1bb-11e6-9df6-5c068bf69904.gif)
+* `isExpired` _Boolean_ - Always true. Twitter does not expire OAuth1a tokens.
 
 ## Tests
 
 #### Local CI
 
-To run `example` app e2e tests for all platforms you can use `npm run ci` command. Before run this command you need to specify `TWITTER_KEY` and `TWITTER_SECRET` environment variables:
+To run `example` app e2e tests for all platforms you can use `npm run ci` command. Before running this command you need to specify `TWITTER_KEY` and `TWITTER_SECRET` environment variables:
 
 ```bash
 TWITTER_KEY=<...> TWITTER_SECRET=<...> npm run ci
@@ -160,7 +156,7 @@ You might encounter the following error while trying to run tests:
 
 `An unknown server-side error occurred while processing the command. Original error: Command \'/bin/bash Scripts/bootstrap.sh -d\' exited with code 1`
 
-You can fix it by installing `Carthage`:
+This can be fixed by installing `Carthage`:
 
 ```bash
 brew install carthage
@@ -168,8 +164,10 @@ brew install carthage
 
 ## Example
 
-To see more of the `tipsi-twitter` in action, you can check out the source in [example](https://github.com/tipsi/tipsi-twitter/tree/master/example) folder.
+To see more of the `tipsi-twitter` in action, check out the source at [example](https://github.com/tipsi/tipsi-twitter/tree/master/example) folder.
+
+![Eample](https://cloud.githubusercontent.com/assets/4946753/21184163/dec7bb12-c213-11e6-8034-6ac839629838.png)
 
 ## License
 
-tipsi-stripe is available under the MIT license. See the [LICENSE](https://github.com/tipsi/tipsi-twitter/tree/master/LICENSE) file for more info.
+tipsi-twitter is available under the MIT license. See the [LICENSE](https://github.com/tipsi/tipsi-twitter/tree/master/LICENSE) file for more info.
