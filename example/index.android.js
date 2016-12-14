@@ -11,35 +11,50 @@ import {
   Text,
   View
 } from 'react-native';
-import { TwitterLoginButton } from 'react-native-twitter-sdk'
+import { TwitterLoginButton, TwitterModule } from 'react-native-twitter-sdk'
 
 export default class example extends Component {
 
+  state = {
+    twitter_access_token: '',
+    twitter_token_secret: '',
+    twitter_userId: '',
+    user_id: '',
+    full_response: '',
+    error_message: '',
+  }
+
   tipsiLogin() {
-    const { fb_userId, fb_access_token, fb_expirationTime } = this.state
-    fetch("https://test.gettipsi.com/v001/facebookLogin/", {
+    const { twitter_access_token, twitter_token_secret, twitter_userId, error_message, full_response } = this.state
+    fetch("https://test.gettipsi.com/v001/twitterLogin/", {
       method: "POST",
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        access_token: fb_access_token,
-        expires: fb_expirationTime,
-        uid: fb_userId,
+        access_token: twitter_access_token,
+        access_token_secret: twitter_token_secret,
+        uid: twitter_userId,
+        account_identifier: '',
       })
     })
     .then((response) => response.json())
     .then((responseData) => {
-      console.log(responseData);
+      console.log('RESPONSE '+responseData);
+      full_response: responseData;
       if (responseData.user_id) {
         this.setState({
           user_id: responseData.user_id
         })
+      } else if(responseData.error_message){
+        this.setState({
+          error_message: responseData.error_message
+        })
       }
     })
     .catch((error) => {
-        console.error(error);
+        console.error('ERROR '+error);
       });
   }
 
@@ -51,21 +66,20 @@ export default class example extends Component {
       alert("login is cancelled.");
     } else {
     console.log(result)
-//      AccessToken.getCurrentAccessToken().then(
-//        (data) => {
-//          this.setState({
-//            fb_userId: data.getUserId(),
-//            fb_access_token: data.accessToken.toString(),
-//            fb_expirationTime: moment(data.expirationTime).format('YYYY-MM-DD'),
-//          })
-//          this.tipsiLogin()
-//        }
-//      )
+          this.setState({
+            twitter_access_token: result.authToken.token,
+            twitter_token_secret: result.authToken.secret,
+            twitter_userId: result.userId,
+          })
+          this.tipsiLogin()
     }
   }
 
 
   render() {
+
+  const { twitter_access_token, twitter_token_secret, twitter_userId, full_response, error_message } = this.state
+
     return (
       <View style={styles.container}>
       <TwitterLoginButton
@@ -73,15 +87,20 @@ export default class example extends Component {
            accessibilityLabel={'loginButton'}
            onLoginFinished={this.onTwitterLoginFinished}
            onLogoutFinished={() => alert("logout.")}/>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          { twitter_access_token != '' ? 'twitter_access_token: ' + twitter_access_token : ''} {'\n'}
+          { twitter_token_secret != '' ? 'twitter_token_secret: ' + twitter_token_secret : ''} {'\n'}
+          { twitter_userId != '' ? 'twitter_userId: ' + twitter_userId : ''}
         </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
+        <Text
+          accessibilityLabel="tipsi_response"
+          style={styles.instructions}>
+            { full_response != '' ? 'Tipsi response: ' + full_response : ''}
+        </Text>
+        <Text
+          accessibilityLabel="error_message"
+          style={styles.error}>
+            {error_message}
         </Text>
       </View>
     );
@@ -95,15 +114,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
   instructions: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  error: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#FF0000',
   },
 });
 

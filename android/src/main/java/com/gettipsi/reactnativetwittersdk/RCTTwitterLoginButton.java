@@ -61,6 +61,7 @@ public class RCTTwitterLoginButton extends TwitterLoginButton {
         token.putString("secret", authToken.secret);
         result.putMap("authToken", token);
         event.putMap("result", result);
+
         reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
           getId(),
           "topChange",
@@ -76,6 +77,7 @@ public class RCTTwitterLoginButton extends TwitterLoginButton {
         final WritableMap result = Arguments.createMap();
         result.putBoolean("isCancelled", false);
         event.putMap("result", result);
+
         reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
           getId(),
           "topChange",

@@ -17,20 +17,23 @@ import io.fabric.sdk.android.Fabric;
 
 public class TwitterLoginButtonManager extends SimpleViewManager<RCTTwitterLoginButton> {
 
-  // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-  private static final String TWITTER_KEY = "TWITTER_KEY";
-  private static final String TWITTER_SECRET = "TWITTER_SECRET";
 
   public static final String REACT_CLASS = "RCTTwitterLoginButton";
   private static final String TAG = TwitterLoginButtonManager.class.getSimpleName();
+  private final String twitter_key;
+  private final String twitter_secret;
   private RCTTwitterLoginButton twitterLoginButton;
 
-  public TwitterLoginButtonManager(ReactApplicationContext reactApplicationContext) {
-    ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
+  public TwitterLoginButtonManager(ReactApplicationContext reactApplicationContext, String twitter_key, String twitter_secret) {
+    this.twitter_key = twitter_key;
+    this.twitter_secret = twitter_secret;
+//    initTwitter(reactApplicationContext, twitter_key, twitter_secret);
+
+    final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
       @Override
       public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         twitterLoginButton.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: QQQ");
+        Log.d(TAG, "onActivityResult");
         super.onActivityResult(activity, requestCode, resultCode, data);
       }
     };
@@ -44,9 +47,13 @@ public class TwitterLoginButtonManager extends SimpleViewManager<RCTTwitterLogin
 
   @Override
   protected RCTTwitterLoginButton createViewInstance(ThemedReactContext reactContext) {
-    TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-    Fabric.with(reactContext.getCurrentActivity(), new Twitter(authConfig));
+    initTwitter(reactContext, twitter_key, twitter_secret);
     twitterLoginButton = new RCTTwitterLoginButton(reactContext.getCurrentActivity(), reactContext);
     return twitterLoginButton;
+  }
+
+  private void initTwitter(final ThemedReactContext reactContext, final String twitter_key, final String twitter_secret){
+    TwitterAuthConfig authConfig = new TwitterAuthConfig(twitter_key, twitter_secret);
+    Fabric.with(reactContext.getCurrentActivity(), new Twitter(authConfig));
   }
 }

@@ -17,6 +17,14 @@ import java.util.List;
 
 public class TwitterReactPackage implements ReactPackage {
 
+  private final String twitter_key;
+  private final String twitter_secret;
+
+  public TwitterReactPackage(final String twitter_key, final String twitter_secret) {
+    this.twitter_key = twitter_key;
+    this.twitter_secret = twitter_secret;
+  }
+
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     return Arrays.<NativeModule>asList(new TwitterLoginManagerModule(reactContext));
@@ -29,6 +37,6 @@ public class TwitterReactPackage implements ReactPackage {
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-    return Arrays.<ViewManager>asList(new TwitterLoginButtonManager(reactContext));
+    return Arrays.<ViewManager>asList(new TwitterLoginButtonManager(reactContext, twitter_key, twitter_secret));
   }
 }

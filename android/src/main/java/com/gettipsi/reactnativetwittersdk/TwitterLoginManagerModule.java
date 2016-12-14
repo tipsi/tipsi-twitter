@@ -16,12 +16,18 @@ import io.fabric.sdk.android.Fabric;
 public class TwitterLoginManagerModule extends ReactContextBaseJavaModule {
 
   private final ReactApplicationContext reactContext;
+  private ReadableMap currentData;
 
   public TwitterLoginManagerModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
+    if(currentData != null){
+      initTwitter(currentData);
+      currentData = null;
+    }
   }
 
+  //
   @Override
   public String getName() {
     return "TwitterLoginModule";
@@ -29,7 +35,15 @@ public class TwitterLoginManagerModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void init(final ReadableMap map) {
-    TwitterAuthConfig authConfig = new TwitterAuthConfig(map.getString("TWITTER_KEY"), map.getString("TWITTER_SECRET"));
-    Fabric.with(reactContext.getCurrentActivity(), new Twitter(authConfig));
+    if(reactContext == null || getCurrentActivity() == null){
+      currentData = map;
+    } else {
+      initTwitter(map);
+    }
+  }
+
+  private void initTwitter(final ReadableMap map){
+    TwitterAuthConfig authConfig = new TwitterAuthConfig(map.getString("twitter_key"), map.getString("twitter_secret"));
+    Fabric.with(getCurrentActivity(), new Twitter(authConfig));
   }
 }
