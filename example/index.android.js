@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
-} from 'react-native';
-import { TwitterLoginButton } from 'tipsi-twitter'
+  View,
+} from 'react-native'
+import { TwitterLoginButton, TwitterModule } from 'tipsi-twitter'
 
 TwitterModule.init({
   twitter_key: 'T2VS8tuBEOMBO604qSkg',
@@ -13,7 +13,6 @@ TwitterModule.init({
 })
 
 export default class example extends Component {
-
   state = {
     twitterAccessToken: '',
     twitterTokenSecret: '',
@@ -22,16 +21,14 @@ export default class example extends Component {
   }
 
   onTwitterLoginFinished = (error, result) => {
-    console.log('onTwitterLoginFinished in REACT')
     if (error) {
-      alert("login has error: " + error);
-         this.setState({
-           errorMessage: result.error,
-         })
+      alert(`login has error: ${error}`)
+      this.setState({
+        errorMessage: result.error,
+      })
     } else if (result.isCancelled) {
-      alert("login is cancelled.");
+      alert('login is cancelled')
     } else {
-    console.log(result)
       this.setState({
         twitterAccessToken: result.authToken.token,
         twitterTokenSecret: result.authToken.secret,
@@ -41,19 +38,19 @@ export default class example extends Component {
   }
 
   render() {
-
-  const { twitterAccessToken, twitterTokenSecret, twitterUserId, errorMessage } = this.state
+    const { twitterAccessToken, twitterTokenSecret, twitterUserId, errorMessage } = this.state
 
     return (
       <View style={styles.container}>
-      <TwitterLoginButton
-           accessible
-           accessibilityLabel="loginButton"
-           onLoginFinished={this.onTwitterLoginFinished}
-           onLogoutFinished={() => alert("logout.")}/>
+        <TwitterLoginButton
+          accessible
+          accessibilityLabel="loginButton"
+          onLoginFinished={this.onTwitterLoginFinished}
+          onLogoutFinished={() => alert('logout')}
+        />
         <Text
-           accessibilityLabel="twitter_response"
-           style={styles.instructions}>
+          accessibilityLabel="twitter_response"
+          style={styles.instructions}>
           { twitterAccessToken !== '' ? `twitterAccessToken: ${twitterAccessToken}` : ''} {'\n'}
           { twitterTokenSecret !== '' ? `twitterTokenSecret: ${twitterTokenSecret}` : ''} {'\n'}
           { twitterUserId !== '' ? `twitterUserId: ${twitterUserId}` : ''}
@@ -61,10 +58,10 @@ export default class example extends Component {
         <Text
           accessibilityLabel="error_message"
           style={styles.error}>
-            {errorMessage}
+          {errorMessage}
         </Text>
       </View>
-    );
+    )
   }
 }
 
@@ -85,6 +82,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FF0000',
   },
-});
+})
 
-AppRegistry.registerComponent('example', () => example);
+AppRegistry.registerComponent('example', () => example)
