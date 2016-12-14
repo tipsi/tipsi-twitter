@@ -13,6 +13,7 @@ test('Test sample auth with Twitter', async(t) => {
   const loginInput = idFromXPath('//*/android.view.View[2]/android.widget.EditText[1]')
   const passwordInput = idFromXPath('//*/android.view.View[4]/android.widget.EditText[1]')
   const okButton = idFromXPath('//*/android.widget.Button[1]')
+  const userId = idFromAccessId('twitter_response')
 
   try {
     await driver.waitForVisible(loginButton, 70000)
@@ -41,6 +42,9 @@ test('Test sample auth with Twitter', async(t) => {
     t.pass('okButton should be visible')
     await driver.click(okButton)
     t.pass('User can click okButton')
+
+    await driver.waitForVisible(userId, 10000)
+    t.pass('User authenticated successfully')
   } catch (error) {
     await helper.screenshot()
     await helper.source()

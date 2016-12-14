@@ -14,8 +14,6 @@ TwitterModule.init({
 
 export default class example extends Component {
   state = {
-    twitterAccessToken: '',
-    twitterTokenSecret: '',
     twitterUserId: '',
     errorMessage: '',
   }
@@ -51,8 +49,6 @@ export default class example extends Component {
         <Text
           accessibilityLabel="twitter_response"
           style={styles.instructions}>
-          { twitterAccessToken !== '' ? `twitterAccessToken: ${twitterAccessToken}` : ''} {'\n'}
-          { twitterTokenSecret !== '' ? `twitterTokenSecret: ${twitterTokenSecret}` : ''} {'\n'}
           { twitterUserId !== '' ? `twitterUserId: ${twitterUserId}` : ''}
         </Text>
         <Text
