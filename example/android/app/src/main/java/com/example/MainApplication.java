@@ -14,9 +14,6 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-    private static final String twitter_key = "T2VS8tuBEOMBO604qSkg";
-    private static final String twitter_secret = "yB8RTQUoUvgcQb0DpSXRIcW2GX8aymjFDnQVYMGCo";
-
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
         protected boolean getUseDeveloperSupport() {
@@ -27,7 +24,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-                    new TwitterReactPackage(twitter_key, twitter_secret)
+                    new TwitterReactPackage()
             );
         }
     };

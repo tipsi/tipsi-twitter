@@ -20,13 +20,11 @@ public class TwitterLoginButtonManager extends SimpleViewManager<RCTTwitterLogin
 
   public static final String REACT_CLASS = "RCTTwitterLoginButton";
   private static final String TAG = TwitterLoginButtonManager.class.getSimpleName();
-  private final String twitter_key;
-  private final String twitter_secret;
+  // private final String twitter_key;
+  // private final String twitter_secret;
   private RCTTwitterLoginButton twitterLoginButton;
 
-  public TwitterLoginButtonManager(ReactApplicationContext reactApplicationContext, String twitter_key, String twitter_secret) {
-    this.twitter_key = twitter_key;
-    this.twitter_secret = twitter_secret;
+  public TwitterLoginButtonManager(ReactApplicationContext reactApplicationContext) {
 //    initTwitter(reactApplicationContext, twitter_key, twitter_secret);
 
     final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
@@ -47,13 +45,13 @@ public class TwitterLoginButtonManager extends SimpleViewManager<RCTTwitterLogin
 
   @Override
   protected RCTTwitterLoginButton createViewInstance(ThemedReactContext reactContext) {
-    initTwitter(reactContext, twitter_key, twitter_secret);
+    // initTwitter(reactContext, twitter_key, twitter_secret);
     twitterLoginButton = new RCTTwitterLoginButton(reactContext.getCurrentActivity(), reactContext);
     return twitterLoginButton;
   }
 
-  private void initTwitter(final ThemedReactContext reactContext, final String twitter_key, final String twitter_secret){
-    TwitterAuthConfig authConfig = new TwitterAuthConfig(twitter_key, twitter_secret);
-    Fabric.with(reactContext.getCurrentActivity(), new Twitter(authConfig));
-  }
+  // private void initTwitter(final ThemedReactContext reactContext, final String twitter_key, final String twitter_secret){
+  //   TwitterAuthConfig authConfig = new TwitterAuthConfig(twitter_key, twitter_secret);
+  //   Fabric.with(reactContext.getCurrentActivity(), new Twitter(authConfig));
+  // }
 }

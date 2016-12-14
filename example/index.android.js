@@ -13,6 +13,11 @@ import {
 } from 'react-native';
 import { TwitterLoginButton, TwitterModule } from 'react-native-twitter-sdk'
 
+TwitterModule.init({
+  twitter_key: 'T2VS8tuBEOMBO604qSkg',
+  twitter_secret: 'yB8RTQUoUvgcQb0DpSXRIcW2GX8aymjFDnQVYMGCo',
+})
+
 export default class example extends Component {
 
   state = {
