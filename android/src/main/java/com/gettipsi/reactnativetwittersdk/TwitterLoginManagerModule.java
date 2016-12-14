@@ -25,12 +25,8 @@ public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implem
     super(reactContext);
     this.reactContext = reactContext;
     reactContext.addLifecycleEventListener(this);
-    Log.d("TwitterLoginModule", "constructor");
-    Log.v("TwitterLoginModule", "constructor: reactContext:" + Boolean.toString(reactContext == null));
-    Log.v("TwitterLoginModule", "constructor: getCurrentActivity:" + Boolean.toString(getCurrentActivity() == null));
   }
 
-  //
   @Override
   public String getName() {
     return "TwitterLoginModule";
@@ -38,9 +34,6 @@ public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implem
 
   @ReactMethod
   public void init(final ReadableMap map) {
-    Log.d("TwitterLoginModule", "init");
-    Log.v("TwitterLoginModule", "init: reactContext:" + Boolean.toString(reactContext == null));
-    Log.v("TwitterLoginModule", "init: getCurrentActivity:" + Boolean.toString(getCurrentActivity() == null));
     if(getCurrentActivity() == null){
       currentData = map;
     } else {
@@ -50,9 +43,6 @@ public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implem
 
   @Override
   public void onHostResume() {
-    Log.d("TwitterLoginModule", "onHostResume");
-    Log.v("TwitterLoginModule", "onHostResume: reactContext:" + Boolean.toString(reactContext == null));
-    Log.v("TwitterLoginModule", "onHostResume: getCurrentActivity:" + Boolean.toString(getCurrentActivity() == null));
     if(currentData != null){
       initTwitter(currentData);
     }
