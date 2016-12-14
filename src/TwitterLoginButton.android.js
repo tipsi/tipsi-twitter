@@ -1,4 +1,7 @@
+'use strict';
+
 import React, {
+  Component,
   PropTypes,
 } from 'react';
 import {
@@ -8,13 +11,10 @@ import {
 } from 'react-native';
 
 
-type Event = Object;
-type TooltipBehaviorIOS = 'auto' | 'force_display' | 'disable';
-
 /**
  * A button that initiates a log in or log out flow upon tapping.
  */
- class TwitterLoginButton extends React.Component {
+ export default class TwitterLoginButton extends Component {
    static defaultProps: {
      style: typeof styles.defaultButtonStyle,
    };
@@ -48,8 +48,7 @@ type TooltipBehaviorIOS = 'auto' | 'force_display' | 'disable';
      style?: any,
    };
 
-   _eventHandler(event: Event) {
-   console.log('EVENT_IN_REACT '+event)
+   _eventHandler = (event) => {
      const eventDict = event.nativeEvent;
      if (eventDict.type === 'loginFinished') {
        if (this.props.onLoginFinished){
@@ -96,5 +95,3 @@ type TooltipBehaviorIOS = 'auto' | 'force_display' | 'disable';
    TwitterLoginButton,
    { nativeOnly: { onChange: true } }
  );
-
- module.exports = TwitterLoginButton;

@@ -15,7 +15,7 @@ isIOS() {
 # Go to example project
 cd example
 # Remove module dependency
-#rm -rf node_modules/react-native-twitter-sdk
+#rm -rf node_modules/tipsi-twitter
 
 ###################
 # INSTALL         #

@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -11,7 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { TwitterLoginButton, TwitterModule } from 'react-native-twitter-sdk'
+import { TwitterLoginButton } from 'tipsi-twitter'
 
 TwitterModule.init({
   twitter_key: 'T2VS8tuBEOMBO604qSkg',
@@ -21,91 +15,53 @@ TwitterModule.init({
 export default class example extends Component {
 
   state = {
-    twitter_access_token: '',
-    twitter_token_secret: '',
-    twitter_userId: '',
-    user_id: '',
-    full_response: '',
-    error_message: '',
-  }
-
-  tipsiLogin() {
-    const { twitter_access_token, twitter_token_secret, twitter_userId, error_message, full_response } = this.state
-    fetch("https://test.gettipsi.com/v001/twitterLogin/", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        access_token: twitter_access_token,
-        access_token_secret: twitter_token_secret,
-        uid: twitter_userId,
-        account_identifier: '',
-      })
-    })
-    .then((response) => response.json())
-    .then((responseData) => {
-      console.log('RESPONSE '+responseData);
-      full_response: responseData;
-      if (responseData.user_id) {
-        this.setState({
-          user_id: responseData.user_id
-        })
-      } else if(responseData.error_message){
-        this.setState({
-          error_message: responseData.error_message
-        })
-      }
-    })
-    .catch((error) => {
-        console.error('ERROR '+error);
-      });
+    twitterAccessToken: '',
+    twitterTokenSecret: '',
+    twitterUserId: '',
+    errorMessage: '',
   }
 
   onTwitterLoginFinished = (error, result) => {
     console.log('onTwitterLoginFinished in REACT')
     if (error) {
-      alert("login has error: " + result.error);
+      alert("login has error: " + error);
+         this.setState({
+           errorMessage: result.error,
+         })
     } else if (result.isCancelled) {
       alert("login is cancelled.");
     } else {
     console.log(result)
-          this.setState({
-            twitter_access_token: result.authToken.token,
-            twitter_token_secret: result.authToken.secret,
-            twitter_userId: result.userId,
-          })
-          this.tipsiLogin()
+      this.setState({
+        twitterAccessToken: result.authToken.token,
+        twitterTokenSecret: result.authToken.secret,
+        twitterUserId: result.userId,
+      })
     }
   }
 
-
   render() {
 
-  const { twitter_access_token, twitter_token_secret, twitter_userId, full_response, error_message } = this.state
+  const { twitterAccessToken, twitterTokenSecret, twitterUserId, errorMessage } = this.state
 
     return (
       <View style={styles.container}>
       <TwitterLoginButton
            accessible
-           accessibilityLabel={'loginButton'}
+           accessibilityLabel="loginButton"
            onLoginFinished={this.onTwitterLoginFinished}
            onLogoutFinished={() => alert("logout.")}/>
-        <Text style={styles.instructions}>
-          { twitter_access_token != '' ? 'twitter_access_token: ' + twitter_access_token : ''} {'\n'}
-          { twitter_token_secret != '' ? 'twitter_token_secret: ' + twitter_token_secret : ''} {'\n'}
-          { twitter_userId != '' ? 'twitter_userId: ' + twitter_userId : ''}
-        </Text>
         <Text
-          accessibilityLabel="tipsi_response"
-          style={styles.instructions}>
-            { full_response != '' ? 'Tipsi response: ' + full_response : ''}
+           accessibilityLabel="twitter_response"
+           style={styles.instructions}>
+          { twitterAccessToken !== '' ? `twitterAccessToken: ${twitterAccessToken}` : ''} {'\n'}
+          { twitterTokenSecret !== '' ? `twitterTokenSecret: ${twitterTokenSecret}` : ''} {'\n'}
+          { twitterUserId !== '' ? `twitterUserId: ${twitterUserId}` : ''}
         </Text>
         <Text
           accessibilityLabel="error_message"
           style={styles.error}>
-            {error_message}
+            {errorMessage}
         </Text>
       </View>
     );

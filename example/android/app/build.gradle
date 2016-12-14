@@ -155,7 +155,7 @@ android {
 
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile project(':react-native-twitter-sdk')
+    compile project(':tipsi-twitter')
     compile "com.android.support:appcompat-v7:25.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
 }

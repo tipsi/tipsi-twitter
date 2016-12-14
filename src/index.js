@@ -1,6 +1,10 @@
-
 'use strict';
 
-exports.TwitterModule = require('./TwitterModule');
-exports.TwitterLoginButton = require('./TwitterLoginButton');
+import TwitterModule from './TwitterModule';
+import TwitterLoginButton from './TwitterLoginButton';
+
+export default TwitterModule;
+export {
+  TwitterLoginButton
+}
 

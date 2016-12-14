@@ -1,30 +1,28 @@
 {
-  "name": "react-native-twitter-sdk",
+  "name": "tipsi-twitter",
   "version": "0.0.1",
   "description": "Twitter sdk for react-native",
   "main": "src/index.js",
   "scripts": {
-    "ci": "scripts/local-ci.sh",
-    "test:ios": "xcodebuild -project ios/TPSStore.xcodeproj/ -scheme 'TPSStoreTests' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test",
-    "test:android": "cd android && ./gradlew test"
+    "ci": "scripts/local-ci.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tipsi/native-store.git"
+    "url": "git+https://github.com/tipsi/tipsi-twitter.git"
   },
   "keywords": [
     "react",
     "react-native",
-    "native-store",
+    "tipsi-twitter",
     "ios",
     "android"
   ],
   "author": "Tipsi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tipsi/native-store/issues"
+    "url": "https://github.com/tipsi/tipsi-twitter/issues"
   },
-  "homepage": "https://github.com/tipsi/native-store#readme",
+  "homepage": "https://github.com/tipsi/tipsi-twitter#readme",
   "peerDependencies": {
     "react-native": "*"
   },

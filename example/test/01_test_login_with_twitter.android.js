@@ -3,7 +3,7 @@ import helper from './utils/helper'
 
 const { driver, idFromAccessId, idFromXPath, idFromText } = helper
 
-test('Test sample auth in Tipsi with Twitter', async(t) => {
+test('Test sample auth with Twitter', async(t) => {
 
   const loginButton = idFromAccessId('loginButton')
 
@@ -20,7 +20,7 @@ test('Test sample auth in Tipsi with Twitter', async(t) => {
   `)
 
   const errorText = idFromAccessId('error_message')
-  const tipsiResponseText = idFromAccessId('tipsi_response')
+  const twitterResponseText = idFromAccessId('twitter_response')
 
   try {
     await driver.waitForVisible(loginButton, 70000)
