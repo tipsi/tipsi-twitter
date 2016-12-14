@@ -17,9 +17,6 @@ import java.util.List;
 
 public class TwitterReactPackage implements ReactPackage {
 
-  public TwitterReactPackage() {
-  }
-
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     return Arrays.<NativeModule>asList(new TwitterLoginManagerModule(reactContext));
