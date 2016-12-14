@@ -11,7 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { TwitterLoginButton } from 'react-native-twitter-sdk'
+import { TwitterLoginButton } from 'tipsi-twitter'
 
 export default class example extends Component {
 
