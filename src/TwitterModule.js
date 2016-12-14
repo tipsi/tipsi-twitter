@@ -1,12 +1,14 @@
 
 'use strict';
 
-const TwitterLoginModule = require('react-native').NativeModules.TwitterLoginModule;
+import { NativeModules } from 'react-native'
 
-module.exports = {
+const { TwitterLoginModule } = NativeModules
 
-  init(twitterCredentials: object): Promise<any> {
-    return TwitterLoginModule.init(twitterCredentials);
-  },
-
+class TwitterModule  {
+  init = (twitterCredentials) => (
+     TwitterLoginModule.init(twitterCredentials)
+  )
 };
+
+export default new TwitterModule();

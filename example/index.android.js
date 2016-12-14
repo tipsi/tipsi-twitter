@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -16,10 +10,10 @@ import { TwitterLoginButton } from 'tipsi-twitter'
 export default class example extends Component {
 
   state = {
-    twitter_access_token: '',
-    twitter_token_secret: '',
-    twitter_userId: '',
-    error_message: '',
+    twitterAccessToken: '',
+    twitterTokenSecret: '',
+    twitterUserId: '',
+    errorMessage: '',
   }
 
   onTwitterLoginFinished = (error, result) => {
@@ -27,42 +21,42 @@ export default class example extends Component {
     if (error) {
       alert("login has error: " + error);
          this.setState({
-           error_message: result.error,
+           errorMessage: result.error,
          })
     } else if (result.isCancelled) {
       alert("login is cancelled.");
     } else {
     console.log(result)
-          this.setState({
-            twitter_access_token: result.authToken.token,
-            twitter_token_secret: result.authToken.secret,
-            twitter_userId: result.userId,
-          })
+      this.setState({
+        twitterAccessToken: result.authToken.token,
+        twitterTokenSecret: result.authToken.secret,
+        twitterUserId: result.userId,
+      })
     }
   }
 
   render() {
 
-  const { twitter_access_token, twitter_token_secret, twitter_userId, error_message } = this.state
+  const { twitterAccessToken, twitterTokenSecret, twitterUserId, errorMessage } = this.state
 
     return (
       <View style={styles.container}>
       <TwitterLoginButton
            accessible
-           accessibilityLabel={'loginButton'}
+           accessibilityLabel="loginButton"
            onLoginFinished={this.onTwitterLoginFinished}
            onLogoutFinished={() => alert("logout.")}/>
         <Text
            accessibilityLabel="twitter_response"
            style={styles.instructions}>
-          { twitter_access_token != '' ? 'twitter_access_token: ' + twitter_access_token : ''} {'\n'}
-          { twitter_token_secret != '' ? 'twitter_token_secret: ' + twitter_token_secret : ''} {'\n'}
-          { twitter_userId != '' ? 'twitter_userId: ' + twitter_userId : ''}
+          { twitterAccessToken !== '' ? `twitterAccessToken: ${twitterAccessToken}` : ''} {'\n'}
+          { twitterTokenSecret !== '' ? `twitterTokenSecret: ${twitterTokenSecret}` : ''} {'\n'}
+          { twitterUserId !== '' ? `twitterUserId: ${twitterUserId}` : ''}
         </Text>
         <Text
           accessibilityLabel="error_message"
           style={styles.error}>
-            {error_message}
+            {errorMessage}
         </Text>
       </View>
     );

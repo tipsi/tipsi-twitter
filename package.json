@@ -4,9 +4,7 @@
   "description": "Twitter sdk for react-native",
   "main": "src/index.js",
   "scripts": {
-    "ci": "scripts/local-ci.sh",
-    "test:ios": "xcodebuild -project ios/TPSStore.xcodeproj/ -scheme 'TPSStoreTests' -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6' test",
-    "test:android": "cd android && ./gradlew test"
+    "ci": "scripts/local-ci.sh"
   },
   "repository": {
     "type": "git",
