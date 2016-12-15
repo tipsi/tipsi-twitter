@@ -20,7 +20,7 @@ test('Test sample auth with Twitter', async(t) => {
   `)
 
   const errorText = idFromAccessId('error_message')
-  const tipsiResponseText = idFromAccessId('twitter_response')
+  const twitterResponseText = idFromAccessId('twitter_response')
 
   try {
     await driver.waitForVisible(loginButton, 70000)
