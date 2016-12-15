@@ -2,7 +2,7 @@
 
 case "${TRAVIS_OS_NAME}" in
   osx)
-    rm -rf example/node_modules/react-native-twitter-sdk
+    rm -rf example/node_modules/tipsi-twitter
   ;;
   linux)
     rm -rf example/node_modules/react-native-twitter-sdk
