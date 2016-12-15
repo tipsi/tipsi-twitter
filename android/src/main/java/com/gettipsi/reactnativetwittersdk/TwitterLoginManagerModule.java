@@ -1,30 +1,53 @@
 package com.gettipsi.reactnativetwittersdk;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.util.Log;
+
+import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
 import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import io.fabric.sdk.android.Fabric;
-
-import android.util.Log;
 
 /**
  * This is a {@link NativeModule} that allows JS to use LoginManager of Facebook Android SDK.
  */
 public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
-  private final ReactApplicationContext reactContext;
+  private static final String TAG = TwitterLoginManagerModule.class.getSimpleName();
   private ReadableMap currentData;
+  private TwitterAuthClient twitterAuthClient;
 
   public TwitterLoginManagerModule(ReactApplicationContext reactContext) {
     super(reactContext);
-    this.reactContext = reactContext;
+    final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
+      @Override
+      public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult");
+        if (requestCode == getTwitterAuthClient().getRequestCode())
+          getTwitterAuthClient().onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(activity, requestCode, resultCode, data);
+      }
+    };
     reactContext.addLifecycleEventListener(this);
+    reactContext.addActivityEventListener(mActivityEventListener);
   }
 
   @Override
@@ -34,16 +57,50 @@ public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implem
 
   @ReactMethod
   public void init(final ReadableMap map) {
-    if(getCurrentActivity() == null){
+    if (getCurrentActivity() == null) {
       currentData = map;
     } else {
       initTwitter(map);
     }
   }
 
+  @ReactMethod
+  public void logIn(final Promise promise) {
+    Log.d(TAG, "logIn: ");
+    if (getCurrentActivity() != null)
+      getTwitterAuthClient().authorize(getCurrentActivity(), new Callback<TwitterSession>() {
+        @Override
+        public void success(Result<TwitterSession> loginResult) {
+          Log.d(TAG, "success: ");
+          final TwitterSession session = loginResult.data;
+          final TwitterAuthToken authToken = session.getAuthToken();
+
+          final WritableMap result = Arguments.createMap();
+          result.putBoolean("isCancelled", false);
+          result.putString("userId", String.valueOf(session.getUserId()));
+          result.putString("userName", session.getUserName());
+          final WritableMap token = Arguments.createMap();
+          token.putInt("describeContents", authToken.describeContents());
+          token.putBoolean("isExpired", authToken.isExpired());
+          token.putString("token", authToken.token);
+          token.putString("secret", authToken.secret);
+          result.putMap("authToken", token);
+
+          promise.resolve(result);
+        }
+
+        @Override
+        public void failure(TwitterException exception) {
+          Log.d(TAG, "failure: ");
+          promise.reject(TAG, exception.getMessage());
+        }
+      });
+
+  }
+
   @Override
   public void onHostResume() {
-    if(currentData != null){
+    if (currentData != null) {
       initTwitter(currentData);
     }
   }
@@ -56,8 +113,15 @@ public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implem
   public void onHostDestroy() {
   }
 
-  private void initTwitter(final ReadableMap map){
+  private void initTwitter(final ReadableMap map) {
     TwitterAuthConfig authConfig = new TwitterAuthConfig(map.getString("twitter_key"), map.getString("twitter_secret"));
     Fabric.with(getCurrentActivity(), new Twitter(authConfig));
+  }
+
+  private TwitterAuthClient getTwitterAuthClient() {
+    if (twitterAuthClient == null) {
+      twitterAuthClient = new TwitterAuthClient();
+    }
+    return twitterAuthClient;
   }
 }

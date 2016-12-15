@@ -11,6 +11,7 @@ import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -30,7 +31,8 @@ public class TwitterLoginButtonManager extends SimpleViewManager<RCTTwitterLogin
     final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
       @Override
       public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
+        if (twitterLoginButton != null)
+          twitterLoginButton.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult");
         super.onActivityResult(activity, requestCode, resultCode, data);
       }

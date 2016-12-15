@@ -4,8 +4,9 @@ import {
   StyleSheet,
   Text,
   View,
+  Button,
 } from 'react-native'
-import { TwitterLoginButton, TwitterModule } from 'tipsi-twitter'
+import { TwitterModule } from 'tipsi-twitter'
 
 TwitterModule.init({
   twitter_key: 'T2VS8tuBEOMBO604qSkg',
@@ -18,21 +19,20 @@ export default class example extends Component {
     errorMessage: '',
   }
 
-  onTwitterLoginFinished = (error, result) => {
-    if (error) {
-      alert(`login has error: ${error}`)
-      this.setState({
-        errorMessage: result.error,
-      })
-    } else if (result.isCancelled) {
-      alert('login is cancelled')
-    } else {
-      this.setState({
-        twitterAccessToken: result.authToken.token,
-        twitterTokenSecret: result.authToken.secret,
-        twitterUserId: result.userId,
-      })
-    }
+  handleCustomLoginPress = async () => {
+  try {
+     const result = await TwitterModule.logIn()
+     console.log('Result:', result)
+       this.setState({
+         errorMessage: '',
+         twitterUserId: result.userId,
+       })
+     } catch (error) {
+     console.log(error.name + ': ' + error.message)
+       this.setState({
+         errorMessage: error.message,
+       })
+     }
   }
 
   render() {
@@ -40,11 +40,11 @@ export default class example extends Component {
 
     return (
       <View style={styles.container}>
-        <TwitterLoginButton
+        <Button
+          title="Login Button"
           accessible
-          accessibilityLabel="loginButton"
-          onLoginFinished={this.onTwitterLoginFinished}
-          onLogoutFinished={() => alert('logout')}
+          accessibilityLabel='loginButton'
+          onPress={this.handleCustomLoginPress}
         />
         <Text
           accessibilityLabel="twitter_response"
@@ -78,6 +78,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FF0000',
   },
+  button: {
+    marginBottom: 20,
+    padding: 20,
+    },
 })
 
 AppRegistry.registerComponent('example', () => example)
