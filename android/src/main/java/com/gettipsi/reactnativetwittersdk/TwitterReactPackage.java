@@ -29,6 +29,6 @@ public class TwitterReactPackage implements ReactPackage {
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-    return Arrays.<ViewManager>asList(new TwitterLoginButtonManager(reactContext));
+    return Collections.emptyList();
   }
 }
