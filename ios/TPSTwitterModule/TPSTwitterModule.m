@@ -6,6 +6,13 @@
 
 typedef void(^TWTAPIHandler)(NSData *data, NSError *error);
 typedef void(^TWTRSessionHandler)(TWTRSession *session, NSError *error);
+static NSString *const kTWTConsumerKey = @"consumerKey";
+static NSString *const kTWTConsumerSecret = @"consumerSecret";
+
+@interface TPSTwitterModule ()
+@property (nonatomic, copy) NSString *consumerKey;
+@property (nonatomic, copy) NSString *consumerSecret;
+@end
 
 @implementation TPSTwitterModule
 
@@ -15,74 +22,90 @@ RCT_EXPORT_MODULE()
     return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(setTwitterKeys:(NSDictionary*)twitterCredentials) {
-    [[Twitter sharedInstance] startWithConsumerKey:twitterCredentials[@"consumerKey"] consumerSecret:twitterCredentials[@"consumerSecret"]];
+RCT_EXPORT_METHOD(init:(NSDictionary*)twitterCredentials
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    if (twitterCredentials[kTWTConsumerKey] && twitterCredentials[kTWTConsumerSecret]) {
+        self.consumerKey = twitterCredentials[kTWTConsumerKey];
+        self.consumerSecret = twitterCredentials[kTWTConsumerSecret];
+        [[Twitter sharedInstance] startWithConsumerKey:twitterCredentials[kTWTConsumerKey] consumerSecret:twitterCredentials[kTWTConsumerSecret]];
+        resolve(nil);
+    } else if (!twitterCredentials[kTWTConsumerKey] && twitterCredentials[kTWTConsumerSecret]) {
+        reject(nil, nil, [self errorWithDescription:@"Missing Twitter application's consumer key"]);
+    } else if (twitterCredentials[kTWTConsumerKey] && !twitterCredentials[kTWTConsumerSecret]) {
+        reject(nil, nil, [self errorWithDescription:@"Missing Twitter application's consumer secret"]);
+    } else {
+        reject(nil, nil, [self errorWithDescription:@"You should pass Twitter application's consumer key and secret"]);
+    }
 }
 
 RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
-    ACAccountStore *account = [[ACAccountStore alloc] init];
-    ACAccountType *accountType = [account accountTypeWithAccountTypeIdentifier:
-                                  ACAccountTypeIdentifierTwitter];
-    __typeof__(self) __weak weakSelf = self;
-    [account requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-        if (granted) {
-            NSArray *accounts = [account
-                                 accountsWithAccountType:accountType];
-            if (accounts.count) {
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-                
-                for (ACAccount *twAccount in accounts) {
-
-                    UIAlertAction* action = [UIAlertAction
-                                                    actionWithTitle:[NSString stringWithFormat:@"@%@", twAccount.username]
-                                                    style:UIAlertActionStyleDefault
-                                                    handler:^(UIAlertAction * action) {
-                                                        __strong typeof(self) strongSelf = weakSelf;
-                                                        [strongSelf createSessionFromAccount:twAccount withHandler:^(TWTRSession *session, NSError *error) {
-                                                            if (error) {
-                                                                reject(nil, nil, error);
-                                                            } else {
-                                                                NSDictionary *body = @{@"authToken": session.authToken,
-                                                                                       @"authTokenSecret": session.authTokenSecret,
-                                                                                       @"userID":session.userID,
-                                                                                       @"userName":session.userName};
-                                                                resolve(body);
-                                                            }
-                                                        }];
-                                                    }];
-                    [alert addAction:action];
+    if (self.consumerKey && self.consumerSecret) {
+        ACAccountStore *account = [[ACAccountStore alloc] init];
+        ACAccountType *accountType = [account accountTypeWithAccountTypeIdentifier:
+                                      ACAccountTypeIdentifierTwitter];
+        __typeof__(self) __weak weakSelf = self;
+        [account requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+            if (granted) {
+                NSArray *accounts = [account
+                                     accountsWithAccountType:accountType];
+                if (accounts.count) {
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                    
+                    for (ACAccount *twAccount in accounts) {
+                        
+                        UIAlertAction* action = [UIAlertAction
+                                                 actionWithTitle:[NSString stringWithFormat:@"@%@", twAccount.username]
+                                                 style:UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction * action) {
+                                                     __strong typeof(self) strongSelf = weakSelf;
+                                                     [strongSelf createSessionFromAccount:twAccount withHandler:^(TWTRSession *session, NSError *error) {
+                                                         if (error) {
+                                                             reject(nil, nil, error);
+                                                         } else {
+                                                             NSDictionary *body = @{@"authToken": session.authToken,
+                                                                                    @"authTokenSecret": session.authTokenSecret,
+                                                                                    @"userID":session.userID,
+                                                                                    @"userName":session.userName};
+                                                             resolve(body);
+                                                         }
+                                                     }];
+                                                 }];
+                        [alert addAction:action];
+                    }
+                    
+                    UIAlertAction* webLoginAction = [UIAlertAction
+                                                     actionWithTitle:@"Log in as another user"
+                                                     style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action) {
+                                                         __strong typeof(self) strongSelf = weakSelf;
+                                                         [strongSelf webBasedLogin:resolve rejecter:reject];
+                                                     }];
+                    [alert addAction:webLoginAction];
+                    
+                    UIAlertAction* cancelAction = [UIAlertAction
+                                                   actionWithTitle:@"Cancel"
+                                                   style:UIAlertActionStyleCancel
+                                                   handler:nil];
+                    [alert addAction:cancelAction];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [RCTPresentedViewController() presentViewController:alert animated:YES completion:nil];
+                    });
+                } else {
+                    __strong typeof(self) strongSelf = weakSelf;
+                    [strongSelf webBasedLogin:resolve rejecter:reject];
                 }
-                
-                UIAlertAction* webLoginAction = [UIAlertAction
-                                         actionWithTitle:@"Log in as another user"
-                                         style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction * action) {
-                                             __strong typeof(self) strongSelf = weakSelf;
-                                             [strongSelf webBasedLogin:resolve rejecter:reject];
-                                         }];
-                [alert addAction:webLoginAction];
-                
-                UIAlertAction* cancelAction = [UIAlertAction
-                                                 actionWithTitle:@"Cancel"
-                                                 style:UIAlertActionStyleCancel
-                                                 handler:nil];
-                [alert addAction:cancelAction];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [RCTPresentedViewController() presentViewController:alert animated:YES completion:nil];
-                });
             } else {
-                __strong typeof(self) strongSelf = weakSelf;
-                [strongSelf webBasedLogin:resolve rejecter:reject];
+                reject(nil, nil, error);
             }
-        } else {
-            reject(nil, nil, error);
-        }
-    }];
+        }];
+    } else {
+        reject(nil, nil, [self errorWithDescription:@"Before call login you have to call init with Twitter application's consumer key and secret"]);
+    }
 }
 
 - (void)webBasedLogin:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject {
-    //TODO: Add Checking [[Twitter sharedInstance] authConfig]
     [[Twitter sharedInstance] logInWithMethods:TWTRLoginMethodWebBasedForceLogin completion:^(TWTRSession *session, NSError *error) {
         if (session) {
             NSDictionary *body = @{@"authToken": session.authToken,
@@ -94,7 +117,6 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
             reject(nil, nil, error);
         }
     }];
-
 }
 
 - (void)createSessionFromAccount:(ACAccount*)account withHandler:(TWTRSessionHandler)handler {
@@ -183,6 +205,18 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
     }
     
     return queryStringDictionary;
+}
+
+#pragma mark - NSError
+
+- (NSError*)errorWithDescription:(NSString*)errorDescription {
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey:errorDescription,
+                               };
+    NSError *error = [NSError errorWithDomain:@"com.tipsi.twitter"
+                                         code:0
+                                     userInfo:userInfo];
+    return error;
 }
 
 @end

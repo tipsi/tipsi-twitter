@@ -61,11 +61,11 @@ test('Twitter web login test', async (t) => {
 		await driver.waitForVisible(webEmailField, 30000)
 		t.pass('User should see Twitter login web page')
 		await driver.click(webEmailField)
-		await driver.keys('TWETTER_USER')
+		await driver.keys($TWITTER_USER)
 		t.pass('User should be able to type Email')
 
 		await driver.click(webPasswordField)
-		await driver.keys('TWITTER_PASSWORD')
+		await driver.keys($TWITTER_PASS)
 		t.pass('User should be able to type password')
 
 		await driver.click(webAuthButton)

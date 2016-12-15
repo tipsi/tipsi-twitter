@@ -21,8 +21,8 @@ export default class example extends Component {
     try {
       const result = await TPSTwitterModule.init(
         {
-          consumerKey: 'TWITTER_CONSUMER_KEY',
-          consumerSecret: 'TWITTER_CONSUMER_SECRET'
+          consumerKey: $TWITTER_KEY,
+          consumerSecret: $TWITTER_SECRET
         }
       );
     } catch (e) {
