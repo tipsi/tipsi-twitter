@@ -1,26 +1,19 @@
 import test from 'tape-async'
 import helper from './utils/helper'
 
-const { driver, idFromAccessId, idFromXPath, idFromText } = helper
+const {
+  TWITTER_USER,
+  TWITTER_PASS,
+} = process.env
+
+const { driver, idFromAccessId, idFromXPath } = helper
 
 test('Test sample auth with Twitter', async(t) => {
-
   const loginButton = idFromAccessId('loginButton')
-
-  const loginInput = idFromXPath(`//*/
-    android.view.View[2]/android.widget.EditText[1]
-  `)
-
-  const passwordInput = idFromXPath(`//*/
-    android.view.View[4]/android.widget.EditText[1]
-  `)
-
-  const okButton = idFromXPath(`//*/
-    android.widget.Button[1]
-  `)
-
-  const errorText = idFromAccessId('error_message')
-  const twitterResponseText = idFromAccessId('twitter_response')
+  const loginInput = idFromXPath('//*/android.view.View[2]/android.widget.EditText[1]')
+  const passwordInput = idFromXPath('//*/android.view.View[4]/android.widget.EditText[1]')
+  const okButton = idFromXPath('//*/android.widget.Button[1]')
+  const userId = idFromAccessId('twitter_response')
 
   try {
     await driver.waitForVisible(loginButton, 70000)
@@ -32,7 +25,7 @@ test('Test sample auth with Twitter', async(t) => {
     await driver.waitForVisible(loginInput, 60000)
     t.pass('loginInput should be visible')
     await driver.click(loginInput)
-    await driver.keys('mail.dmitriy.malets@gmail.com')
+    await driver.keys(TWITTER_USER)
     t.pass('User should be able to write login')
 
     await driver.back()
@@ -40,7 +33,7 @@ test('Test sample auth with Twitter', async(t) => {
     await driver.waitForVisible(passwordInput, 5000)
     t.pass('passwordInput should be visible')
     await driver.click(passwordInput)
-    await driver.keys('q1W2e3R4t5Y6twi')
+    await driver.keys(TWITTER_PASS)
     t.pass('User should be able to write password')
 
     await driver.back()
@@ -50,18 +43,8 @@ test('Test sample auth with Twitter', async(t) => {
     await driver.click(okButton)
     t.pass('User can click okButton')
 
-    try {
-      await driver.waitForVisible(tipsiResponseText, 30000)
-      t.pass('tipsiResponseText should be visible')
-      const fbUserId = await driver.getText(tipsiResponseText)
-      t.pass('tipsiResponseText == '+fbUserId)
-    } catch (error) {
-      await driver.waitForVisible(errorText, 5000)
-      t.pass('errorText should be visible')
-      const fbUserId = await driver.getText(errorText)
-      t.pass('errorText == '+fbUserId)
-    }
-    // to be continued ...
+    await driver.waitForVisible(userId, 10000)
+    t.pass('User authenticated successfully')
   } catch (error) {
     await helper.screenshot()
     await helper.source()
