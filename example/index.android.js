@@ -20,30 +20,28 @@ export default class example extends Component {
   }
 
   handleCustomLoginPress = async () => {
-  try {
-     const result = await TwitterModule.logIn()
-     console.log('Result:', result)
-       this.setState({
-         errorMessage: '',
-         twitterUserId: result.userId,
-       })
-     } catch (error) {
-     console.log(error.name + ': ' + error.message)
-       this.setState({
-         errorMessage: error.message,
-       })
-     }
+    try {
+      const result = await TwitterModule.logIn()
+      this.setState({
+        errorMessage: '',
+        twitterUserId: result.userId,
+      })
+    } catch (error) {
+      this.setState({
+        errorMessage: error.message,
+      })
+    }
   }
 
   render() {
-    const { twitterAccessToken, twitterTokenSecret, twitterUserId, errorMessage } = this.state
+    const { twitterUserId, errorMessage } = this.state
 
     return (
       <View style={styles.container}>
         <Button
           title="Login Button"
           accessible
-          accessibilityLabel='loginButton'
+          accessibilityLabel="loginButton"
           onPress={this.handleCustomLoginPress}
         />
         <Text
@@ -81,7 +79,7 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: 20,
     padding: 20,
-    },
+  },
 })
 
 AppRegistry.registerComponent('example', () => example)
