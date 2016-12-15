@@ -76,6 +76,9 @@ test('Twitter web login test', async (t) => {
 		await driver.click(loggedAlertOkButton)
 
 	} catch (error) {
+		await helper.screenshot()
+		await helper.source()
 
+		throw error
 	}
 })
