@@ -20,6 +20,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		317714201E01644700D9B4A1 /* exampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3177141F1E01644700D9B4A1 /* exampleTests.m */; };
 		31AF49291DFEB8B2001F5419 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31AF49281DFEB8B2001F5419 /* Social.framework */; };
 		31AF49701DFECB38001F5419 /* libTPSTwitterModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31AF49621DFEBCF6001F5419 /* libTPSTwitterModule.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -83,6 +84,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
+		};
+		317714221E01644700D9B4A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
+			remoteInfo = example;
 		};
 		31AF48DE1DFE96AA001F5419 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -190,6 +198,9 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = example/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = example/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		3177141D1E01644700D9B4A1 /* exampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = exampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3177141F1E01644700D9B4A1 /* exampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = exampleTests.m; sourceTree = "<group>"; };
+		317714211E01644700D9B4A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		31AF49281DFEB8B2001F5419 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		31AF495D1DFEBCF6001F5419 /* TPSTwitterModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TPSTwitterModule.xcodeproj; path = "../node_modules/tipsi-twitter/ios/TPSTwitterModule.xcodeproj"; sourceTree = "<group>"; };
 		509F4FC69E6904B2EF35D364 /* Pods-exampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-exampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-exampleTests/Pods-exampleTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -221,6 +232,13 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				6C21D2CBC1F9F11404C20181 /* libPods-example.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3177141A1E01644700D9B4A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +345,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3177141E1E01644700D9B4A1 /* exampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				3177141F1E01644700D9B4A1 /* exampleTests.m */,
+				317714211E01644700D9B4A1 /* Info.plist */,
+			);
+			path = exampleTests;
+			sourceTree = "<group>";
+		};
 		31AF495E1DFEBCF6001F5419 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -397,6 +424,7 @@
 				13B07FAE1A68108700A75B9A /* example */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* exampleTests */,
+				3177141E1E01644700D9B4A1 /* exampleTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				9882DDEFA168D5FD9AD0107E /* Pods */,
 				36957450EEC6C6BD04718EE8 /* Frameworks */,
@@ -409,6 +437,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* example.app */,
+				3177141D1E01644700D9B4A1 /* exampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -448,6 +477,24 @@
 			productReference = 13B07F961A680F5B00A75B9A /* example.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3177141C1E01644700D9B4A1 /* exampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3177143A1E01644700D9B4A1 /* Build configuration list for PBXNativeTarget "exampleTests" */;
+			buildPhases = (
+				317714191E01644700D9B4A1 /* Sources */,
+				3177141A1E01644700D9B4A1 /* Frameworks */,
+				3177141B1E01644700D9B4A1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				317714231E01644700D9B4A1 /* PBXTargetDependency */,
+			);
+			name = exampleTests;
+			productName = exampleTests;
+			productReference = 3177141D1E01644700D9B4A1 /* exampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -456,6 +503,13 @@
 			attributes = {
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Facebook;
+				TargetAttributes = {
+					3177141C1E01644700D9B4A1 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "example" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -521,6 +575,7 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* example */,
+				3177141C1E01644700D9B4A1 /* exampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -678,6 +733,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3177141B1E01644700D9B4A1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -752,7 +814,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		317714191E01644700D9B4A1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				317714201E01644700D9B4A1 /* exampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		317714231E01644700D9B4A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 13B07F861A680F5B00A75B9A /* example */;
+			targetProxy = 317714221E01644700D9B4A1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
@@ -813,6 +891,44 @@
 				);
 				PRODUCT_NAME = example;
 				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		317714241E01644700D9B4A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = exampleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.densa.exampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = example;
+			};
+			name = Debug;
+		};
+		317714251E01644700D9B4A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = exampleTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.densa.exampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = example;
 			};
 			name = Release;
 		};
@@ -910,6 +1026,15 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3177143A1E01644700D9B4A1 /* Build configuration list for PBXNativeTarget "exampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				317714241E01644700D9B4A1 /* Debug */,
+				317714251E01644700D9B4A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
