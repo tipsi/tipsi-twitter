@@ -26,6 +26,12 @@ Run `npm install --save tipsi-twitter` to add the package to your app's dependen
 
 ### Android
 
+##### react-native cli
+
+Run react-native link tipsi-twitter so your project is linked against your Android project
+
+##### Manual
+
 1. In your app build.gradle add:
 ```gradle
 ...
@@ -52,50 +58,38 @@ project(':tipsi-twitter').projectDir = new File(rootProject.projectDir, '../node
     </application>
 ```
 
-4. In your MainApplication.java add:
-```java
-public class MainApplication extends Application implements ReactApplication {
-...
-    private static final String twitter_key = "YOUR_TWITTER_KEY";
-    private static final String twitter_secret = "YOUR_TWITTER_SECRET";
-...
-    private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-        @Override
-        protected List<ReactPackage> getPackages() {
-            return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
-                    ...
-                    new TwitterReactPackage(twitter_key, twitter_secret)
-            );
-        }
-    };
-...
-```
-
-
 ## Usage
 
 ```js
 ...
-import { TwitterLoginButton } from 'tipsi-twitter'
+import { TwitterModule } from 'tipsi-twitter'
+
+TwitterModule.init({
+  twitter_key: '<TWITTER_KEY>',
+  twitter_secret: '<TWITTER_SECRET>',
+})
 ...
 
-  onTwitterLoginFinished = (error, result) => {
-    if (error) {
-      alert("login has error: " + error);
-    } else if (result.isCancelled) {
-      alert("login is cancelled.");
-    } else {
-    console.log(result)
-    // Handle Twitter auth result
+  onTwitterLoginFinished = async () => {
+    try {
+      const result = await TwitterModule.logIn()
+      this.setState({
+        errorMessage: '',
+        twitterUserId: result.userId,
+      })
+    } catch (error) {
+      this.setState({
+        errorMessage: error.message,
+      })
     }
   }
 ...
   render() {
     return (
       <View style={styles.container}>
-      <TwitterLoginButton
-           onLoginFinished={this.onTwitterLoginFinished}/>
+        <Button
+          title="Twitter Login Button"
+          onPress={this.onTwitterLoginFinished}/>
       </View>
     );
   }
