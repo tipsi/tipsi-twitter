@@ -1,6 +1,7 @@
-import TPSTwitterModule from './TPSTwitterModule';
+import TPSTwitterModule from './TPSTwitterModule'
+import TwitterModule from './TwitterModule'
 
-export default TPSTwitterModule
-// exports.TwitterModule = require('./TPSTwitter');
-//exports.TwitterModule = require('./TwitterModule');
-//exports.TwitterLoginButton = require('./TwitterLoginButton');
+export {
+  TPSTwitterModule,
+  TwitterModule,
+}

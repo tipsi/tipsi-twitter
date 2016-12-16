@@ -9,7 +9,7 @@ case "${TRAVIS_OS_NAME}" in
   ;;
   linux)
     cd example
-#    npm run configure
+    npm run configure
     npm run build:android
     npm run test:android
   ;;

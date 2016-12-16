@@ -1,109 +1,61 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
-} from 'react-native';
-import { TwitterLoginButton, TwitterModule } from 'react-native-twitter-sdk'
+  View,
+  Button,
+} from 'react-native'
+import { TwitterModule } from 'tipsi-twitter'
+
+TwitterModule.init({
+  twitter_key: '<TWITTER_KEY>',
+  twitter_secret: '<TWITTER_SECRET>',
+})
 
 export default class example extends Component {
-
   state = {
-    twitter_access_token: '',
-    twitter_token_secret: '',
-    twitter_userId: '',
-    user_id: '',
-    full_response: '',
-    error_message: '',
+    twitterUserId: '',
+    errorMessage: '',
   }
 
-  tipsiLogin() {
-    const { twitter_access_token, twitter_token_secret, twitter_userId, error_message, full_response } = this.state
-    fetch("https://test.gettipsi.com/v001/twitterLogin/", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        access_token: twitter_access_token,
-        access_token_secret: twitter_token_secret,
-        uid: twitter_userId,
-        account_identifier: '',
+  handleCustomLoginPress = async () => {
+    try {
+      const result = await TwitterModule.logIn()
+      this.setState({
+        errorMessage: '',
+        twitterUserId: result.userId,
       })
-    })
-    .then((response) => response.json())
-    .then((responseData) => {
-      console.log('RESPONSE '+responseData);
-      full_response: responseData;
-      if (responseData.user_id) {
-        this.setState({
-          user_id: responseData.user_id
-        })
-      } else if(responseData.error_message){
-        this.setState({
-          error_message: responseData.error_message
-        })
-      }
-    })
-    .catch((error) => {
-        console.error('ERROR '+error);
-      });
-  }
-
-  onTwitterLoginFinished = (error, result) => {
-    console.log('onTwitterLoginFinished in REACT')
-    if (error) {
-      alert("login has error: " + result.error);
-    } else if (result.isCancelled) {
-      alert("login is cancelled.");
-    } else {
-    console.log(result)
-          this.setState({
-            twitter_access_token: result.authToken.token,
-            twitter_token_secret: result.authToken.secret,
-            twitter_userId: result.userId,
-          })
-          this.tipsiLogin()
+    } catch (error) {
+      this.setState({
+        errorMessage: error.message,
+      })
     }
   }
 
-
   render() {
-
-  const { twitter_access_token, twitter_token_secret, twitter_userId, full_response, error_message } = this.state
+    const { twitterUserId, errorMessage } = this.state
 
     return (
       <View style={styles.container}>
-      <TwitterLoginButton
-           accessible
-           accessibilityLabel={'loginButton'}
-           onLoginFinished={this.onTwitterLoginFinished}
-           onLogoutFinished={() => alert("logout.")}/>
-        <Text style={styles.instructions}>
-          { twitter_access_token != '' ? 'twitter_access_token: ' + twitter_access_token : ''} {'\n'}
-          { twitter_token_secret != '' ? 'twitter_token_secret: ' + twitter_token_secret : ''} {'\n'}
-          { twitter_userId != '' ? 'twitter_userId: ' + twitter_userId : ''}
-        </Text>
+        <Button
+          title="Login Button"
+          accessible
+          accessibilityLabel="loginButton"
+          onPress={this.handleCustomLoginPress}
+        />
         <Text
-          accessibilityLabel="tipsi_response"
+          accessibilityLabel="twitter_response"
           style={styles.instructions}>
-            { full_response != '' ? 'Tipsi response: ' + full_response : ''}
+          { twitterUserId !== '' ? `twitterUserId: ${twitterUserId}` : ''}
         </Text>
         <Text
           accessibilityLabel="error_message"
           style={styles.error}>
-            {error_message}
+          {errorMessage}
         </Text>
       </View>
-    );
+    )
   }
 }
 
@@ -124,6 +76,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FF0000',
   },
-});
+  button: {
+    marginBottom: 20,
+    padding: 20,
+  },
+})
 
-AppRegistry.registerComponent('example', () => example);
+AppRegistry.registerComponent('example', () => example)
