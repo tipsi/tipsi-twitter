@@ -3,40 +3,32 @@ import {
   Alert,
   AppRegistry,
   StyleSheet,
-  Text,
-  TouchableHighlight,
+  Button,
   View,
 } from 'react-native'
-import TPSTwitterModule from 'tipsi-twitter'
+import { TPSTwitterModule } from 'tipsi-twitter'
 
 export default class example extends Component {
-  componentWillMount() {
-    TPSTwitterModule.init({
+  componentWillMount = async () => {
+    await TPSTwitterModule.init({
       consumerKey: '<TWITTER_KEY>',
       consumerSecret: '<TWITTER_SECRET>',
     })
   }
 
   handleTwitterPress = async () => {
-    try {
-      const result = await TPSTwitterModule.login()
-      Alert.alert(
-        'Login success',
-        `@${result.userName}`,
-        [{ text: 'OK' }]
-      )
-    } catch (e) {
-      console.log(e)
-    }
+    const result = await TPSTwitterModule.login()
+    Alert.alert(
+      'Login success',
+      `@${result.userName}`,
+      [{ text: 'OK' }]
+    )
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight
-          onPress={this.handleTwitterPress}>
-          <Text>Twitter login</Text>
-        </TouchableHighlight>
+        <Button title="Login via Twitter" onPress={this.handleTwitterPress} />
       </View>
     )
   }

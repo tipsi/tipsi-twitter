@@ -1,3 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules } from 'react-native'
 
-export default NativeModules.TPSTwitterModule;
+const { TPSTwitterModule } = NativeModules
+export default TPSTwitterModule
