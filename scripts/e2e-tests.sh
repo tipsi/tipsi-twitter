@@ -17,6 +17,13 @@ cd example
 # Remove module dependency
 #rm -rf node_modules/tipsi-twitter
 
+# Check secure Twitter environment variables
+[ -z "$TWITTER_KEY" ] && echo "Need to set TWITTER_KEY" && exit 1;
+[ -z "$TWITTER_SECRET" ] && echo "Need to set TWITTER_SECRET" && exit 1;
+[ -z "$TWITTER_PASS" ] && echo "Need to set TWITTER_PASS" && exit 1;
+[ -z "$TWITTER_USER" ] && echo "Need to set TWITTER_USER" && exit 1;
+
+
 ###################
 # INSTALL         #
 ###################
@@ -42,6 +49,8 @@ fi
 # BUILD           #
 ###################
 
+# Configure Twitter variables
+npm run configure
 # Build Android app
 npm run build:android
 # Build iOS app
