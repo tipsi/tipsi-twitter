@@ -15,8 +15,7 @@ test('Twitter web login test', async (t) => {
     XCUIElementTypeOther`
   )
   const accessAlert = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/
-    XCUIElementTypeAlert`
+    /XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/XCUIElementTypeAlert`
   )
   const agreeButton = idFromXPath(`
     /XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/
