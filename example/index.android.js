@@ -9,8 +9,8 @@ import {
 import { TwitterModule } from 'tipsi-twitter'
 
 TwitterModule.init({
-  twitter_key: 'T2VS8tuBEOMBO604qSkg',
-  twitter_secret: 'yB8RTQUoUvgcQb0DpSXRIcW2GX8aymjFDnQVYMGCo',
+  twitter_key: '<TWITTER_KEY>',
+  twitter_secret: '<TWITTER_SECRET>',
 })
 
 export default class example extends Component {

@@ -1,5 +1,6 @@
 #!/bin/bash
 
-sed -i.bak 's@<TWITTER_KEY>@'"$TWITTER_KEY"'@' android/app/src/main/java/com/example/MainApplication.java
-sed -i.bak 's@<TWITTER_SECRET>@'"$TWITTER_SECRET"'@' android/app/src/main/java/com/example/MainApplication.java
-rm -rf android/app/src/main/java/com/example/MainApplication.java.bak
+sed -i.bak 's@<TWITTER_KEY>@'"$TWITTER_KEY"'@' index.android.js
+sed -i.bak 's@<TWITTER_SECRET>@'"$TWITTER_SECRET"'@' index.android.js
+rm -rf index.android.js.bak
+
