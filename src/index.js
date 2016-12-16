@@ -1,3 +1,5 @@
 import TwitterModule from './TwitterModule'
 
-export default TwitterModule
+export {
+  TwitterModule,
+}
