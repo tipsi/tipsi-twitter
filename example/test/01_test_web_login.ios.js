@@ -11,8 +11,8 @@ const { driver, idFromXPath } = helper
 test('Twitter web login test', async (t) => {
   const twitterButton = idFromXPath(`
     /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
-    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-    XCUIElementTypeOther`
+    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
+    XCUIElementTypeOther/XCUIElementTypeButton`
   )
   const accessAlert = idFromXPath(`
     /XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/XCUIElementTypeAlert`
@@ -54,7 +54,7 @@ test('Twitter web login test', async (t) => {
   )
 
   try {
-    await driver.waitForVisible(twitterButton, 30000)
+    await driver.pause(240000).waitForVisible(twitterButton, 30000)
     t.pass('User should see twitter login button')
     await driver.click(twitterButton)
     t.pass('User can click twitter button')
@@ -69,12 +69,12 @@ test('Twitter web login test', async (t) => {
     t.pass('User should see permission alert')
     await driver.click(agreeButton)
     t.pass('User can click OK button')
-	} catch (error) {
-		await helper.screenshot()
-		await helper.source()
+  } catch (error) {
+    await helper.screenshot()
+    await helper.source()
 
-		throw error
-	}
+    throw error
+  }
 
 // web login
   try {
