@@ -62,9 +62,9 @@ project(':tipsi-twitter').projectDir = new File(rootProject.projectDir, '../node
 
 ```js
 ...
-import { TwitterModule } from 'tipsi-twitter'
+import { TPSTwitterModule } from 'tipsi-twitter'
 
-TwitterModule.init({
+TPSTwitterModule.init({
   twitter_key: '<TWITTER_KEY>',
   twitter_secret: '<TWITTER_SECRET>',
 })
@@ -72,7 +72,7 @@ TwitterModule.init({
 
   onTwitterLoginFinished = async () => {
     try {
-      const result = await TwitterModule.logIn()
+      const result = await TPSTwitterModule.login()
       this.setState({
         errorMessage: '',
         twitterUserId: result.userId,

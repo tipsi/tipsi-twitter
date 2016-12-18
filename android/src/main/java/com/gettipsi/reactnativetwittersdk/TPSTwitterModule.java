@@ -29,13 +29,13 @@ import io.fabric.sdk.android.Fabric;
 /**
  * This is a {@link NativeModule} that allows JS to use LoginManager of Facebook Android SDK.
  */
-public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
+public class TPSTwitterModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
-  private static final String TAG = TwitterLoginManagerModule.class.getSimpleName();
+  private static final String TAG = TPSTwitterModule.class.getSimpleName();
   private ReadableMap currentData;
   private TwitterAuthClient twitterAuthClient;
 
-  public TwitterLoginManagerModule(ReactApplicationContext reactContext) {
+  public TPSTwitterModule(ReactApplicationContext reactContext) {
     super(reactContext);
     final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
       @Override
@@ -52,7 +52,7 @@ public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implem
 
   @Override
   public String getName() {
-    return "TwitterLoginModule";
+    return "TPSTwitterModule";
   }
 
   @ReactMethod
@@ -65,7 +65,7 @@ public class TwitterLoginManagerModule extends ReactContextBaseJavaModule implem
   }
 
   @ReactMethod
-  public void logIn(final Promise promise) {
+  public void login(final Promise promise) {
     Log.d(TAG, "logIn: ");
     if (getCurrentActivity() != null)
       getTwitterAuthClient().authorize(getCurrentActivity(), new Callback<TwitterSession>() {

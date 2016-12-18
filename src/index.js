@@ -1,5 +1,5 @@
-import TwitterModule from './TwitterModule'
+import TPSTwitterModule from './TPSTwitterModule'
 
 export {
-  TwitterModule,
+  TPSTwitterModule,
 }
