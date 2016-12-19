@@ -1,4 +1,4 @@
-# tipsi-stripe
+# tipsi-twitter
 
 [![build status](https://img.shields.io/travis/tipsi/tipsi-twitter/master.svg?style=flat-square)](https://travis-ci.org/tipsi/tipsi-twitter)
 
@@ -122,10 +122,11 @@ An object with the following keys:
 
 #### Local CI
 
-To run `example` app e2e tests for all platforms you can use `npm run ci` command. Before running this command you need to specify `TWITTER_KEY` and `TWITTER_SECRET` environment variables:
+To run `example` app e2e tests for all platforms you can use `npm run ci` command. Before running this command you need to specify `TWITTER_KEY`, `TWITTER_SECRET`,
+and `TWITTER_USER`, `TWITTER_PASS` environment variables:
 
 ```bash
-TWITTER_KEY=<...> TWITTER_SECRET=<...> npm run ci
+TWITTER_KEY=<...> TWITTER_SECRET=<...> TWITTER_USER=<...> TWITTER_PASS=<...> npm run ci
 ```
 
 #### Manual
