@@ -23,6 +23,11 @@
     "url": "https://github.com/tipsi/tipsi-twitter/issues"
   },
   "homepage": "https://github.com/tipsi/tipsi-twitter#readme",
+  "rnpm": {
+    "commands": {
+      "postlink": "node_modules/tipsi-dropdown/scripts/post-link.sh"
+    }
+  },
   "peerDependencies": {
     "react-native": "*"
   },
