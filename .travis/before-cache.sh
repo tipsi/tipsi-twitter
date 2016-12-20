@@ -5,7 +5,7 @@ case "${TRAVIS_OS_NAME}" in
     rm -rf example/node_modules/tipsi-twitter
   ;;
   linux)
-    rm -rf example/node_modules/react-native-twitter-sdk
+    rm -rf example/node_modules/tipsi-twitter
     rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   ;;
 esac

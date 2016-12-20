@@ -28,7 +28,7 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="e81eb6c25b30623c26df84f4d77cfdeb220acc60" />
+            android:value="<FABRIC_APIKEY>" />
     </application>
 
 </manifest>
