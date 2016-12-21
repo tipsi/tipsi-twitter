@@ -201,12 +201,13 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../../ios/**";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../react-native/**",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public/TwitterKit/**",
-					"$(SRCROOT)/../../react/**",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public/TwitterCore/**",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public/OAuthCore/**",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public/NSData+Base64/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../react-native/Libraries/**",
+					"$(SRCROOT)/../../react/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
@@ -221,12 +222,13 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../../ios/**";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../react-native/**",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public/TwitterKit/**",
-					"$(SRCROOT)/../../react/**",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public/TwitterCore/**",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public/OAuthCore/**",
 					"$(SRCROOT)/../../../ios/Pods/Headers/Public/NSData+Base64/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../react-native/Libraries/**",
+					"$(SRCROOT)/../../react/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";

@@ -1,6 +1,7 @@
 #import "TPSTwitterModule.h"
 #import <TwitterKit/TwitterKit.h>
 #import <Social/Social.h>
+#import "RCTConvert.h"
 #import "RCTUtils.h"
 #import <OAuthCore.h>
 
@@ -18,6 +19,17 @@ typedef NS_ENUM(NSUInteger, TPSTwitterError) {
     
 };
 
+@implementation RCTConvert (TPSTwitterError)
+RCT_ENUM_CONVERTER(TPSTwitterError,
+                   (@{
+                      @"errorNoConsumerKey" : @(TPSTwitterErrorNoConsumerKey),
+                      @"errorNoConsumerSecret" : @(TPSTwitterErrorNoConsumerSecret),
+                      @"errorNoTwitterKeys" : @(TPSTwitterErrorNoTwitterKeys),
+                      @"errorNoAuthConfiguration" : @(TPSTwitterErrorNoAuthConfiguration)
+                      }),
+                   TPSTwitterErrorNoConsumerKey, integerValue)
+@end
+
 @interface TPSTwitterModule ()
 @property (nonatomic, copy) NSString *consumerKey;
 @property (nonatomic, copy) NSString *consumerSecret;
@@ -30,6 +42,13 @@ RCT_EXPORT_MODULE()
 - (dispatch_queue_t)methodQueue {
     return dispatch_get_main_queue();
 }
+
+- (NSDictionary *)constantsToExport {
+    return @{ @"errorNoConsumerKey" : @(TPSTwitterErrorNoConsumerKey),
+              @"errorNoConsumerSecret" : @(TPSTwitterErrorNoConsumerSecret),
+              @"errorNoTwitterKeys" : @(TPSTwitterErrorNoTwitterKeys),
+              @"errorNoAuthConfiguration" : @(TPSTwitterErrorNoAuthConfiguration) };
+};
 
 RCT_EXPORT_METHOD(init:(NSDictionary*)twitterCredentials
                   resolve:(RCTPromiseResolveBlock)resolve
