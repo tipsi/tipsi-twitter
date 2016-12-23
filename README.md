@@ -44,11 +44,11 @@ Run `react-native link tipsi-twitter` so your project is linked against your Xco
 
 ### Android
 
-##### react-native cli
+#### react-native cli
 
 Run react-native link tipsi-twitter so your project is linked against your Android project
 
-##### Manual
+#### Manual
 
 1. In your app build.gradle add:
 ```gradle
@@ -118,7 +118,7 @@ TPSTwitterModule.init({
 
 A `result` object will be returned after successful Twitter auth.
 
-##### `token`
+#### `token`
 
 An object with the following keys:
 
@@ -127,7 +127,7 @@ An object with the following keys:
 * `isCancelled` _Boolean_ - true if user has canceled Twitter auth.
 * `authToken` _Object_ - object with token data.
 
-##### `authToken`
+#### `authToken`
 
 An object with the following keys:
 
