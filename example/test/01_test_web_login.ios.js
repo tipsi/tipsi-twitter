@@ -54,30 +54,19 @@ test('Twitter web login test', async (t) => {
   )
 
   try {
-    await driver.pause(240000).waitForVisible(twitterButton, 30000)
+    await driver.waitForVisible(twitterButton, 30000)
     t.pass('User should see twitter login button')
     await driver.click(twitterButton)
     t.pass('User can click twitter button')
-  } catch (error) {
-    await helper.screenshot()
-    await helper.source()
-    throw error
-  }
 
-  try {
+
     await driver.waitForVisible(accessAlert, 10000)
     t.pass('User should see permission alert')
     await driver.click(agreeButton)
     t.pass('User can click OK button')
-  } catch (error) {
-    await helper.screenshot()
-    await helper.source()
 
-    throw error
-  }
 
-// web login
-  try {
+    // web login
     await driver.waitForVisible(webEmailField, 30000)
     t.pass('User should see Twitter login web page')
     await driver.click(webEmailField)
@@ -97,7 +86,6 @@ test('Twitter web login test', async (t) => {
   } catch (error) {
     await helper.screenshot()
     await helper.source()
-
     throw error
   }
-})
+});
