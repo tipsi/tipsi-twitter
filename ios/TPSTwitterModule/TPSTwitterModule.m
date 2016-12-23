@@ -77,11 +77,11 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                                       ACAccountTypeIdentifierTwitter];
         __typeof__(self) __weak weakSelf = self;
         [account requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-            if (granted) {
-                NSArray *accounts = [account
-                                     accountsWithAccountType:accountType];
-                if (accounts.count) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (granted) {
+                    NSArray *accounts = [account
+                                         accountsWithAccountType:accountType];
+                    if (accounts.count) {
                         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
                         for (ACAccount *twAccount in accounts) {
                             
@@ -120,14 +120,14 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                                                        handler:nil];
                         [alert addAction:cancelAction];
                         [RCTPresentedViewController() presentViewController:alert animated:YES completion:nil];
-                    });
+                    } else {
+                        __strong typeof(self) strongSelf = weakSelf;
+                        [strongSelf webBasedLogin:resolve rejecter:reject];
+                    }
                 } else {
-                    __strong typeof(self) strongSelf = weakSelf;
-                    [strongSelf webBasedLogin:resolve rejecter:reject];
+                    reject(nil, nil, error);
                 }
-            } else {
-                reject(nil, nil, error);
-            }
+            });
         }];
     } else {
         reject(nil, nil, [self errorWithCode:TPSTwitterErrorNoAuthConfiguration description:@"Before call login you have to call init with Twitter application's consumer key and secret"]);
