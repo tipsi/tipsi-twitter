@@ -12,7 +12,7 @@ init_new_example_project() {
     android/app/build.gradle
     src
     scripts
-    test
+    tests
   )
 
   mkdir tmp
