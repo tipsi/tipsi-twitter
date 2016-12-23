@@ -53,16 +53,16 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(init:(NSDictionary*)twitterCredentials
                   resolve:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
-    NSString *_consumerKey = twitterCredentials[kTWTConsumerKey];
-    NSString *_consumerSecret = twitterCredentials[kTWTConsumerSecret];
-    if (_consumerKey && _consumerSecret) {
-        self.consumerKey = _consumerKey;
-        self.consumerSecret = _consumerSecret;
-        [[Twitter sharedInstance] startWithConsumerKey:_consumerKey consumerSecret:_consumerSecret];
+    NSString *consumerKey = twitterCredentials[kTWTConsumerKey];
+    NSString *consumerSecret = twitterCredentials[kTWTConsumerSecret];
+    if (consumerKey && consumerSecret) {
+        self.consumerKey = consumerKey;
+        self.consumerSecret = consumerSecret;
+        [[Twitter sharedInstance] startWithConsumerKey:consumerKey consumerSecret:consumerSecret];
         resolve(nil);
-    } else if (!_consumerKey && _consumerSecret) {
+    } else if (!consumerKey && consumerSecret) {
         reject(nil, nil, [self errorWithCode:TPSTwitterErrorNoConsumerKey description:@"Missing Twitter application's consumer key"]);
-    } else if (_consumerKey && !_consumerSecret) {
+    } else if (consumerKey && !consumerSecret) {
         reject(nil, nil, [self errorWithCode:TPSTwitterErrorNoConsumerSecret description:@"Missing Twitter application's consumer secret"]);
     } else {
         reject(nil, nil, [self errorWithCode:TPSTwitterErrorNoTwitterKeys description:@"You should pass Twitter application's consumer key and secret"]);
