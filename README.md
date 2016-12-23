@@ -22,7 +22,25 @@ Run `npm install --save tipsi-twitter` to add the package to your app's dependen
 
 ### iOS
 
- .............................. ....... ..... ..... .... ... . . . .....
+#### react-native cli
+
+Run `react-native link tipsi-twitter` so your project is linked against your Xcode project and all CocoaPods dependencies are installed.
+
+#### CocoaPods
+
+1. Setup your `Podfile` like the included [example/ios/Podfile](example/ios/Podfile) then run `pod install`.
+2. Open your project in Xcode workspace.
+3. Drag the following folder into your project:
+  * `node_modules/tipsi-twitter/ios/TPSTwitterModule/`
+
+#### Manual
+
+1. Open your project in Xcode, right click on Libraries and click `Add Files to "Your Project Name"`.
+2. Look under `node_modules/tipsi-twitter/ios` and add `TPSTwitterModule.xcodeproj`.
+3. Add `libTPSTwitterModule.a` to `Build Phases` -> `Link Binary With Libraries`.
+4. Click on `TPSTwitterModule.xcodeproj` in Libraries and go the Build Settings tab. Double click the text to the right of `Header Search Paths` and verify that it has `$(SRCROOT)/../../react-native/React` as well as `${SRCROOT}/../../../ios/Pods/Headers/Public` - if they aren't, then add them. This is so Xcode is able to find the headers that the `TPSTwitterModule` source files are referring to by pointing to the header files installed within the `react-native` `node_modules` directory.
+5. Whenever you want to use it within React code now you can:
+  * `import stripe from 'tipsi-twitter'`
 
 ### Android
 
@@ -122,8 +140,7 @@ An object with the following keys:
 
 #### Local CI
 
-To run `example` app e2e tests for all platforms you can use `npm run ci` command. Before running this command you need to specify `TWITTER_KEY`, `TWITTER_SECRET`,
-and `TWITTER_USER`, `TWITTER_PASS` environment variables:
+To run `example` app e2e tests for all platforms you can use `npm run ci` command. Before running this command you need to specify `TWITTER_KEY`, `TWITTER_SECRET` and `TWITTER_USER`, `TWITTER_PASS` environment variables:
 
 ```bash
 TWITTER_KEY=<...> TWITTER_SECRET=<...> TWITTER_USER=<...> TWITTER_PASS=<...> npm run ci
@@ -141,9 +158,9 @@ TWITTER_KEY=<...> TWITTER_SECRET=<...> TWITTER_USER=<...> TWITTER_PASS=<...> npm
   * `npm run build` - for both iOS and Android
 6. Open Appium in other tab `npm run appium`
 7. Run tests:
-  * `npm run test:ios` - for iOS
-  * `npm run test:android` - for Android
-  * `npm run test` - for both iOS and Android
+  * `TWITTER_USER=<...> TWITTER_PASS=<...> npm run test:ios` - for iOS
+  * `TWITTER_USER=<...> TWITTER_PASS=<...> npm run test:android` - for Android
+  * `TWITTER_USER=<...> TWITTER_PASS=<...> npm run test` - for both iOS and Android
 
 #### Troubleshooting
 
@@ -160,8 +177,6 @@ brew install carthage
 ## Example
 
 To see more of the `tipsi-twitter` in action, check out the source at [example](https://github.com/tipsi/tipsi-twitter/tree/master/example) folder.
-
-![Eample](https://cloud.githubusercontent.com/assets/4946753/21184163/dec7bb12-c213-11e6-8034-6ac839629838.png)
 
 ## License
 
