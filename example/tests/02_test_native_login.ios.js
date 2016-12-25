@@ -5,23 +5,24 @@ const { driver, idFromXPath } = helper
 
 test('Twitter native login test', async (t) => {
   const twitterButton = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
     XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-    XCUIElementTypeOther/XCUIElementTypeButton`
-  )
+    XCUIElementTypeOther/XCUIElementTypeButton
+  `)
   const usersActionSheet = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/XCUIElementTypeSheet`
-  )
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
+    XCUIElementTypeSheet
+  `)
   const firstUserButton = idFromXPath(`
     /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
     XCUIElementTypeSheet/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther`
-  )
+    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther
+  `)
   const loggedAlert = idFromXPath(`
     /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
     XCUIElementTypeAlert/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText`
-  )
+    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText
+  `)
 
   try {
     await driver.waitForVisible(twitterButton, 30000)

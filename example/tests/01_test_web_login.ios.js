@@ -10,48 +10,54 @@ const { driver, idFromXPath } = helper
 
 test('Twitter web login test', async (t) => {
   const twitterButton = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
     XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-    XCUIElementTypeOther/XCUIElementTypeButton`
-  )
+    XCUIElementTypeOther/XCUIElementTypeButton
+  `)
   const accessAlert = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/XCUIElementTypeAlert`
-  )
+    //XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/XCUIElementTypeAlert
+  `)
   const agreeButton = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/
+    //XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/
     XCUIElementTypeAlert/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
     XCUIElementTypeOther[3]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/
-    XCUIElementTypeButton`
-  )
+    XCUIElementTypeButton
+  `)
+  const anotherAccountBitton = idFromXPath(`
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
+    XCUIElementTypeSheet/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
+    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/
+    XCUIElementTypeButton
+  `)
   const webEmailField = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
     XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
     XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther[3]/XCUIElementTypeOther`
-  )
+    XCUIElementTypeOther[3]/XCUIElementTypeOther
+  `)
   const webPasswordField = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
     XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
     XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther[3]/XCUIElementTypeOther[2]`
-  )
+    XCUIElementTypeOther[3]/XCUIElementTypeOther[2]
+  `)
   const webAuthButton = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
     XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
     XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther[4]/XCUIElementTypeButton`
-  )
+    XCUIElementTypeOther[4]/XCUIElementTypeButton
+  `)
   const loggedAlert = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
     XCUIElementTypeAlert/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText`
-  )
+    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText
+  `)
   const loggedAlertOkButton = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
     XCUIElementTypeAlert/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
     XCUIElementTypeOther[3]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-    XCUIElementTypeButton`
-  )
+    XCUIElementTypeButton
+  `)
 
   try {
     await driver.waitForVisible(twitterButton, 30000)
@@ -59,12 +65,22 @@ test('Twitter web login test', async (t) => {
     await driver.click(twitterButton)
     t.pass('User can click twitter button')
 
+    try {
+      await driver.waitForVisible(accessAlert, 10000)
+      t.pass('User should see permission alert')
+      await driver.click(agreeButton)
+      t.pass('User can click OK button')
+    } catch (error) {
+      // Do nothing...
+    }
 
-    await driver.waitForVisible(accessAlert, 10000)
-    t.pass('User should see permission alert')
-    await driver.click(agreeButton)
-    t.pass('User can click OK button')
-
+    try {
+      await driver.waitForVisible(anotherAccountBitton, 5000)
+      await driver.click(anotherAccountBitton)
+      t.pass('User should be aable to log in on another account')
+    } catch (error) {
+      // Do nothing...
+    }
 
     // web login
     await driver.waitForVisible(webEmailField, 30000)
@@ -88,4 +104,4 @@ test('Twitter web login test', async (t) => {
     await helper.source()
     throw error
   }
-});
+})
