@@ -16,7 +16,6 @@ typedef NS_ENUM(NSUInteger, TPSTwitterError) {
     TPSTwitterErrorNoConsumerSecret,
     TPSTwitterErrorNoTwitterKeys,
     TPSTwitterErrorNoAuthConfiguration
-    
 };
 
 @implementation RCTConvert (TPSTwitterError)
@@ -84,7 +83,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                     if (accounts.count) {
                         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
                         for (ACAccount *twAccount in accounts) {
-                            
+
                             UIAlertAction* action = [UIAlertAction
                                                      actionWithTitle:[NSString stringWithFormat:@"@%@", twAccount.username]
                                                      style:UIAlertActionStyleDefault
@@ -104,7 +103,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                                                      }];
                             [alert addAction:action];
                         }
-                        
+
                         UIAlertAction* webLoginAction = [UIAlertAction
                                                          actionWithTitle:@"Log in as another user"
                                                          style:UIAlertActionStyleDefault
@@ -113,7 +112,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                                                              [strongSelf webBasedLogin:resolve rejecter:reject];
                                                          }];
                         [alert addAction:webLoginAction];
-                        
+
                         UIAlertAction* cancelAction = [UIAlertAction
                                                        actionWithTitle:@"Cancel"
                                                        style:UIAlertActionStyleCancel
@@ -156,9 +155,9 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
             }
         } else {
             NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-            
+
             NSDictionary *twitterCredential = [self parseQueryString:responseStr];
-            
+
             TWTRSession *session = [[TWTRSession alloc] initWithAuthToken:twitterCredential[@"oauth_token"] authTokenSecret:twitterCredential[@"oauth_token_secret"] userName:twitterCredential[@"screen_name"] userID:twitterCredential[@"user_id"]];
             if (handler) {
                 handler(session, nil);
@@ -199,7 +198,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
         request.HTTPMethod = @"POST";
         [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
         request.HTTPBody = bodyData;
-        
+
         [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             completion(data, connectionError);
         }];
@@ -224,15 +223,15 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
 - (NSDictionary *)parseQueryString:(NSString *)string {
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
     NSArray *urlComponents = [string componentsSeparatedByString:@"&"];
-    
+
     for (NSString *keyValuePair in urlComponents) {
         NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
         NSString *key = [pairComponents objectAtIndex:0];
         NSString *value = [pairComponents objectAtIndex:1];
-        
+
         [queryStringDictionary setObject:value forKey:key];
     }
-    
+
     return queryStringDictionary;
 }
 
