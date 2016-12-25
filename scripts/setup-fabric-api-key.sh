@@ -8,5 +8,5 @@ if [[ -n "$fabric_key" ]]; then
 	the_updated_crashlytics_api_key=`/usr/libexec/PlistBuddy -c "Print :Fabric:APIKey" "$path_to_info_plist_file"`
 	echo "Fabric API Key set to: $the_updated_crashlytics_api_key"
 else
-    echo "missing api key"
+  echo "missing api key"
 fi
