@@ -8,14 +8,12 @@ import {
 } from 'react-native'
 import { TPSTwitterModule } from 'tipsi-twitter'
 
-export default class example extends Component {
-  componentWillMount = async () => {
-    await TPSTwitterModule.init({
-      consumerKey: '<TWITTER_KEY>',
-      consumerSecret: '<TWITTER_SECRET>',
-    })
-  }
+await TPSTwitterModule.init({
+  consumerKey: 'T2VS8tuBEOMBO604qSkg',
+  consumerSecret: 'yB8RTQUoUvgcQb0DpSXRIcW2GX8aymjFDnQVYMGCo',
+})
 
+export default class example extends Component {
   handleTwitterPress = async () => {
     const result = await TPSTwitterModule.login()
     Alert.alert(
