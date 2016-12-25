@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { TPSTwitterModule } from 'tipsi-twitter'
 
-await TPSTwitterModule.init({
+TPSTwitterModule.init({
   consumerKey: 'T2VS8tuBEOMBO604qSkg',
   consumerSecret: 'yB8RTQUoUvgcQb0DpSXRIcW2GX8aymjFDnQVYMGCo',
 })
