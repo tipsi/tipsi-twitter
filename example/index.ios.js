@@ -9,8 +9,8 @@ import {
 import { TPSTwitterModule } from 'tipsi-twitter'
 
 TPSTwitterModule.init({
-  consumerKey: 'T2VS8tuBEOMBO604qSkg',
-  consumerSecret: 'yB8RTQUoUvgcQb0DpSXRIcW2GX8aymjFDnQVYMGCo',
+  consumerKey: '<TWITTER_KEY>',
+  consumerSecret: '<TWITTER_SECRET>',
 })
 
 export default class example extends Component {
