@@ -118,23 +118,12 @@ TPSTwitterModule.init({
 
 A `result` object will be returned after successful Twitter auth.
 
-#### `token`
-
 An object with the following keys:
 
+* `authToken` _String_ - Twitter token for auth in your app.
+* `authTokenSecret` _String_ - Twitter secret for auth in your app.
+* `userID` _String_ - Twitter user id.
 * `userName` _String_ - Twitter user name.
-* `userId` _String_ - Twitter user id.
-* `isCancelled` _Boolean_ - true if user has canceled Twitter auth.
-* `authToken` _Object_ - object with token data.
-
-#### `authToken`
-
-An object with the following keys:
-
-* `token` _String_ - Twitter token for auth in your app.
-* `secret` _String_ - Twitter secret for auth in your app.
-* `describeContents` _Number_ - For Twitter auth usualy 0.
-* `isExpired` _Boolean_ - Always true. Twitter does not expire OAuth1a tokens.
 
 ## Tests
 
