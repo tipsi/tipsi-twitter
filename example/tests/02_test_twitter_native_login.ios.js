@@ -28,19 +28,19 @@ test('Test Twitter Native Login', async (t) => {
   `)
 
   try {
-    await driver.waitForVisible(loginButtonID, 30000)
+    await driver.waitForVisible(loginButtonID, 60000)
     t.pass('The user should be able to see "Login Button" button')
 
     await driver.click(loginButtonID)
     t.pass('The user should be able to click on "Login Button" button')
 
-    await driver.waitForVisible(usersActionSheetID, 30000)
+    await driver.waitForVisible(usersActionSheetID, 60000)
     t.pass('The user should be able to see list of twitter accounts')
 
     await driver.click(firstUserButtonID)
     t.pass('The user should be able to choose first twitter account')
 
-    await driver.waitForVisible(userNameTextID, 30000)
+    await driver.waitForVisible(userNameTextID, 60000)
     t.pass('The user should be able to see user name label')
 
     const userNameText = `twitterUserName: ${TWITTER_USER}`

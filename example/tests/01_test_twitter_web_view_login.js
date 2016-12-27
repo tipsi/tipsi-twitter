@@ -74,7 +74,7 @@ test('Test Twitter Web View Login', async (t) => {
   })
 
   try {
-    await driver.waitForVisible(loginButtonID, 30000)
+    await driver.waitForVisible(loginButtonID, 60000)
     t.pass('The user should be able to see "Login Button" button')
 
     await driver.click(loginButtonID)
@@ -82,7 +82,7 @@ test('Test Twitter Web View Login', async (t) => {
 
     if (platform('ios')) {
       try {
-        await driver.waitForVisible(permissionAlertID, 30000)
+        await driver.waitForVisible(permissionAlertID, 60000)
         t.pass('The user should be able to see social account permission alert view')
         await driver.click(permissionAlertAgreeButtonID)
         t.pass('The user should be able to click on "Agree" button on social account permission alert view')
@@ -91,7 +91,7 @@ test('Test Twitter Web View Login', async (t) => {
       }
 
       try {
-        await driver.waitForVisible(loginAsAnotherUserButtonID, 30000)
+        await driver.waitForVisible(loginAsAnotherUserButtonID, 60000)
         t.pass('The user should be able to see "Log in as another user" button')
         await driver.click(loginAsAnotherUserButtonID)
         t.pass('The user should be able to click on "Log in as another user" button')
@@ -101,28 +101,32 @@ test('Test Twitter Web View Login', async (t) => {
     }
 
     // web login
-    await driver.waitForVisible(webViewEmailFieldID, 30000)
+    await driver.waitForVisible(webViewEmailFieldID, 60000)
     t.pass('The user should be able to see "Username or email" field on web view')
     await driver.click(webViewEmailFieldID)
     await driver.keys(TWITTER_USER)
     t.pass('The user should be able fill username to "Username or email" field on web view')
 
-    await driver.back()
+    if (platform('android')) {
+      await driver.back()
+    }
 
-    await driver.waitForVisible(webViewPasswordFieldID, 30000)
+    await driver.waitForVisible(webViewPasswordFieldID, 60000)
     t.pass('The user should be able to see "Password" field on web view')
     await driver.click(webViewPasswordFieldID)
     await driver.keys(TWITTER_PASS)
     t.pass('The user should be able fill password to "Password" field on web view')
 
-    await driver.back()
+    if (platform('android')) {
+      await driver.back()
+    }
 
-    await driver.waitForVisible(webViewAuthorizeAppButtonID, 30000)
+    await driver.waitForVisible(webViewAuthorizeAppButtonID, 60000)
     t.pass('The user should be able to see "Authorize app" button on web view')
     await driver.click(webViewAuthorizeAppButtonID)
     t.pass('The user should be able to click on "Authorize app" button on web view')
 
-    await driver.waitForVisible(userNameTextID, 30000)
+    await driver.waitForVisible(userNameTextID, 60000)
     t.pass('The user should be able to see user name label')
     const userNameText = `twitterUserName: ${TWITTER_USER}`
     
