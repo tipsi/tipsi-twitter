@@ -1,8 +1,8 @@
 #!/bin/bash
 
-sed -i.bak 's@<TWITTER_KEY>@'"$TWITTER_KEY"'@' index.ios.js
-sed -i.bak 's@<TWITTER_SECRET>@'"$TWITTER_SECRET"'@' index.ios.js
-rm -rf index.ios.js.bak
+sed -i.bak 's@<TWITTER_KEY>@'"$TWITTER_KEY"'@' ./src/Root.js
+sed -i.bak 's@<TWITTER_SECRET>@'"$TWITTER_SECRET"'@' ./src/Root.js
+rm -rf ./src/Root.js.bak
 
 /usr/libexec/PlistBuddy -c "Add :Fabric dict" ./ios/example/Info.plist
 /usr/libexec/PlistBuddy -c "Add :Fabric:APIKey string" ./ios/example/Info.plist
