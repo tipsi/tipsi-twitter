@@ -79,39 +79,36 @@ project(':tipsi-twitter').projectDir = new File(rootProject.projectDir, '../node
 ## Usage
 
 ```js
-...
+import React, { Component } from 'react'
+import { View, Button } from 'react-native'
 import { TPSTwitterModule } from 'tipsi-twitter'
 
 TPSTwitterModule.init({
   twitter_key: '<TWITTER_KEY>',
   twitter_secret: '<TWITTER_SECRET>',
 })
-...
 
-  onTwitterLoginFinished = async () => {
+class TwitterLogin extends Component {
+  handleTwitterLoginFinished = async () => {
     try {
       const result = await TPSTwitterModule.login()
-      this.setState({
-        errorMessage: '',
-        twitterUserId: result.userId,
-      })
+      console.log('User id:', result.userId)
     } catch (error) {
-      this.setState({
-        errorMessage: error.message,
-      })
+      console.log('Login error:', error)
     }
   }
-...
+
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <Button
           title="Twitter Login Button"
-          onPress={this.onTwitterLoginFinished}/>
+          onPress={this.handleTwitterLoginFinished}
+        />
       </View>
-    );
+    )
   }
-...
+}
 ```
 
 ### Result
