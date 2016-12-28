@@ -76,15 +76,10 @@ public class TPSTwitterModule extends ReactContextBaseJavaModule implements Life
           final TwitterAuthToken authToken = session.getAuthToken();
 
           final WritableMap result = Arguments.createMap();
-          result.putBoolean("isCancelled", false);
-          result.putString("userId", String.valueOf(session.getUserId()));
+          result.putString("authToken", authToken.token);
+          result.putString("authTokenSecret", authToken.secret);
+          result.putString("userID", String.valueOf(session.getUserId()));
           result.putString("userName", session.getUserName());
-          final WritableMap token = Arguments.createMap();
-          token.putInt("describeContents", authToken.describeContents());
-          token.putBoolean("isExpired", authToken.isExpired());
-          token.putString("token", authToken.token);
-          token.putString("secret", authToken.secret);
-          result.putMap("authToken", token);
 
           promise.resolve(result);
         }
