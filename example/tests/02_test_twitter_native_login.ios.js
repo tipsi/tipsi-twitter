@@ -12,8 +12,8 @@ test('Test Twitter Native Login', async (t) => {
   const loginButtonID = idFromAccessId('loginButton')
 
   const usersActionSheetID = idFromXPath(`
-    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
-    XCUIElementTypeSheet
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/
+    XCUIElementTypeOther[2]/XCUIElementTypeSheet
   `)
 
   const firstUserButtonID = idFromXPath(`

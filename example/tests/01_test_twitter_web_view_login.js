@@ -11,29 +11,24 @@ const { driver, select, platform, idFromXPath, idFromAccessId } = helper
 test('Test Twitter Web View Login', async (t) => {
   const loginButtonID = idFromAccessId('loginButton')
 
-  const permissionAlertID = select({
-    ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/XCUIElementTypeAlert
-    `),
-  })
+  const permissionAlertID = idFromXPath(`
+    //XCUIElementTypeApplication/XCUIElementTypeWindow[6]/
+    XCUIElementTypeOther[2]/XCUIElementTypeAlert
+  `)
 
-  const permissionAlertAgreeButtonID = select({
-    ios: idFromXPath(`
-     //XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/
-     XCUIElementTypeAlert/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-     XCUIElementTypeOther[3]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/
-     XCUIElementTypeButton
-   `),
-  })
+  const permissionAlertAgreeButtonID = idFromXPath(`
+    //XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/
+    XCUIElementTypeAlert/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
+    XCUIElementTypeOther[3]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/
+    XCUIElementTypeButton
+  `)
 
-  const loginAsAnotherUserButtonID = select({
-    ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
-      XCUIElementTypeSheet/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/
-      XCUIElementTypeButton
-    `),
-  })
+  const loginAsAnotherUserButtonID = idFromXPath(`
+    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
+    XCUIElementTypeSheet/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
+    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/
+    XCUIElementTypeButton
+  `)
 
   const webViewEmailFieldID = select({
     ios: idFromXPath(`
@@ -69,7 +64,7 @@ test('Test Twitter Web View Login', async (t) => {
     ios: idFromXPath(`
       //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
       XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText
-      `),
+    `),
     android: idFromAccessId('twitter_response'),
   })
 
@@ -82,7 +77,7 @@ test('Test Twitter Web View Login', async (t) => {
 
     if (platform('ios')) {
       try {
-        await driver.waitForVisible(permissionAlertID, 60000)
+        await driver.waitForVisible(permissionAlertID, 10000)
         t.pass('The user should be able to see social account permission alert view')
         await driver.click(permissionAlertAgreeButtonID)
         t.pass('The user should be able to click on "Agree" button on social account permission alert view')
@@ -91,7 +86,7 @@ test('Test Twitter Web View Login', async (t) => {
       }
 
       try {
-        await driver.waitForVisible(loginAsAnotherUserButtonID, 60000)
+        await driver.waitForVisible(loginAsAnotherUserButtonID, 10000)
         t.pass('The user should be able to see "Log in as another user" button')
         await driver.click(loginAsAnotherUserButtonID)
         t.pass('The user should be able to click on "Log in as another user" button')
@@ -129,7 +124,7 @@ test('Test Twitter Web View Login', async (t) => {
     await driver.waitForVisible(userNameTextID, 60000)
     t.pass('The user should be able to see user name label')
     const userNameText = `twitterUserName: ${TWITTER_USER}`
-    
+
     const sut_userNameText = await driver.getText(userNameTextID);
     t.equal(sut_userNameText, userNameText, `The user should be able to see user name label with text: "${userNameText}"`);
   } catch (error) {
