@@ -21,6 +21,7 @@ react_native_version=$(cat $proj_dir_old/package.json | sed -n 's/"react-native"
 library_name=$(node -p "require('./package.json').name")
 
 files_to_copy=(
+  .appiumhelperrc
   package.json
   index.{ios,android}.js
   android/app/build.gradle
@@ -28,7 +29,7 @@ files_to_copy=(
   ios/example/Info.plist
   src
   scripts
-  tests
+  __tests__
 )
 
 isMacOS() {
@@ -97,13 +98,8 @@ react-native link
 
 # Run appium
 appiumPID=$(ps -A | grep -v grep | grep appium | awk '{print $1}')
-if [ -z $appiumPID ]; then
-  npm run appium > /dev/null 2>&1 &
-else
-  echo "appium is already running, restart appium"
-  kill -9 $appiumPID
-  npm run appium > /dev/null 2>&1 &
-fi
+pkill -9 -f appium
+npm run appium > /dev/null 2>&1 &
 
 ###################
 # BUILD           #

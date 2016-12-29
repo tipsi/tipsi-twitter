@@ -7,6 +7,7 @@ init_new_example_project() {
   react_native_version=$(cat $proj_dir_old/package.json | sed -n 's/"react-native": "\(\^|~\)*\(.*\)",*/\2/p')
 
   files_to_copy=(
+    .appiumhelperrc
     package.json
     index.{ios,android}.js
     android/app/build.gradle
@@ -14,7 +15,7 @@ init_new_example_project() {
     ios/example/Info.plist
     src
     scripts
-    tests
+    __tests__
   )
 
   mkdir tmp
