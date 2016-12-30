@@ -64,6 +64,8 @@ elif (! $skip_new && ! $use_old); then
   mkdir tmp
   cd tmp
   react-native init $proj_dir_old --version $react_native_version
+  # Remove __tests__ folder to avoid conflicts
+  rm -rf $proj_dir_old/__tests__
   # Move new project from tmp dir and remove tmp dir
   cd ..
   mv tmp/$proj_dir_old $proj_dir_new
