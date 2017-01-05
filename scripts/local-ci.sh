@@ -100,7 +100,7 @@ react-native link
 
 # Run appium
 appiumPID=$(ps -A | grep -v grep | grep appium | awk '{print $1}')
-pkill -9 -f appium
+(pkill -9 -f appium || true)
 npm run appium > /dev/null 2>&1 &
 
 ###################
