@@ -101,7 +101,6 @@ test('Test Twitter Web View Login', async (t) => {
     await driver.click(webViewEmailFieldID)
     await driver.keys(TWITTER_USER)
     t.pass('The user should be able fill username to "Username or email" field on web view')
-        await helper.screenshot()
 
     if (platform('android')) {
       await driver.back()
