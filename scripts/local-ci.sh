@@ -57,6 +57,8 @@ if ($skip_new && ! $use_old); then
   # Go to new test project
   cd $proj_dir_new
 elif (! $skip_new && ! $use_old); then
+  # Remove react-native to avoid affecting react-native init
+  rm -rf node_modules/react-native
   echo "Creating new example project"
   # Remove old test project and tmp dir if exist
   rm -rf $proj_dir_new tmp
@@ -64,12 +66,12 @@ elif (! $skip_new && ! $use_old); then
   mkdir tmp
   cd tmp
   react-native init $proj_dir_old --version $react_native_version
-  # Remove __tests__ folder to avoid conflicts
-  rm -rf $proj_dir_old/__tests__
   # Move new project from tmp dir and remove tmp dir
   cd ..
   mv tmp/$proj_dir_old $proj_dir_new
   rm -rf tmp
+  # Remove default __tests__ folder from new project directory
+  rm -rf $proj_dir_new/__tests__
   # Copy necessary files from example project
   for i in ${files_to_copy[@]}; do
     if [ -e $proj_dir_old/$i ]; then
