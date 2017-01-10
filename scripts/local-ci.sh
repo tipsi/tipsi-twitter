@@ -21,6 +21,7 @@ react_native_version=$(cat $proj_dir_old/package.json | sed -n 's/"react-native"
 library_name=$(node -p "require('./package.json').name")
 
 files_to_copy=(
+  .appiumhelperrc
   package.json
   index.{ios,android}.js
   android/app/build.gradle
@@ -28,7 +29,7 @@ files_to_copy=(
   ios/example/Info.plist
   src
   scripts
-  tests
+  __tests__
 )
 
 isMacOS() {
@@ -56,6 +57,8 @@ if ($skip_new && ! $use_old); then
   # Go to new test project
   cd $proj_dir_new
 elif (! $skip_new && ! $use_old); then
+  # Remove react-native to avoid affecting react-native init
+  rm -rf node_modules/react-native
   echo "Creating new example project"
   # Remove old test project and tmp dir if exist
   rm -rf $proj_dir_new tmp
@@ -67,6 +70,8 @@ elif (! $skip_new && ! $use_old); then
   cd ..
   mv tmp/$proj_dir_old $proj_dir_new
   rm -rf tmp
+  # Remove default __tests__ folder from new project directory
+  rm -rf $proj_dir_new/__tests__
   # Copy necessary files from example project
   for i in ${files_to_copy[@]}; do
     if [ -e $proj_dir_old/$i ]; then
@@ -97,13 +102,8 @@ react-native link
 
 # Run appium
 appiumPID=$(ps -A | grep -v grep | grep appium | awk '{print $1}')
-if [ -z $appiumPID ]; then
-  npm run appium > /dev/null 2>&1 &
-else
-  echo "appium is already running, restart appium"
-  kill -9 $appiumPID
-  npm run appium > /dev/null 2>&1 &
-fi
+(pkill -9 -f appium || true)
+npm run appium > /dev/null 2>&1 &
 
 ###################
 # BUILD           #
