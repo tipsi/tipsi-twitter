@@ -1,5 +1,6 @@
 rootProject.name = 'example'
 
-include ':app'
 include ':tipsi-twitter'
 project(':tipsi-twitter').projectDir = new File(rootProject.projectDir, '../node_modules/tipsi-twitter/android')
+
+include ':app'
