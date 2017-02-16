@@ -3,8 +3,6 @@
 
 target 'example' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
+  use_frameworks!
   pod 'TwitterKit', '2.7.0'
-  pod 'OAuthCore', '0.0.1'
-  
 end

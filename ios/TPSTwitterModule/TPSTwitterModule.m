@@ -2,7 +2,7 @@
 #import <TwitterKit/TwitterKit.h>
 #import <Social/Social.h>
 #import "RCTUtils.h"
-#import <OAuthCore.h>
+#import "OAuthCore.h"
 
 typedef void(^TWTAPIHandler)(NSData *data, NSError *error);
 typedef void(^TWTRSessionHandler)(TWTRSession *session, NSError *error);

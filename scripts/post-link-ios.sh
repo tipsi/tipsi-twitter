@@ -14,7 +14,7 @@ podfile="$ios_dir/Podfile"
 
 # Type your pods here.
 # Example: pod_dep="pod 'Stripe'"
-pod_dep="pod 'TwitterKit', '~> 2.7'\npod 'OAuthCore', '~> 0.0'"
+pod_dep="pod 'TwitterKit', '2.7.0'"
 
 echo "Checking Podfile in iOS project ($podfile)"
 
