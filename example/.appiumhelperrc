@@ -1,6 +1,6 @@
 {
   "ios": {
-    "appPath": "./ios/build/Build/Products/Release-iphonesimulator/example.app"
+    "appPath": "./ios/build/Build/Products/Release-iphonesimulator/example.app",
     "noReset": true
   },
   "android": {
