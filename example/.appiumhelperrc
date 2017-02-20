@@ -1,7 +1,7 @@
 {
+  "register": "./__tests__/setup",
   "ios": {
-    "appPath": "./ios/build/Build/Products/Release-iphonesimulator/example.app",
-    "noReset": true
+    "appPath": "./ios/build/Build/Products/Release-iphonesimulator/example.app"
   },
   "android": {
     "appPath": "./android/app/build/outputs/apk/app-release.apk"
