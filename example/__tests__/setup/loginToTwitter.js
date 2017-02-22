@@ -105,14 +105,12 @@ helper.extend('loginToTwitter', async (email, username, password) => {
   `)
 
   if (platform('ios')) {
-    //
     // Alert
     //
     // Title: “example” Would Like Access to Twitter Accounts
     //
     // Button: Don’t Allow
     // Button: OK
-    //
     try {
       await driver
         .waitForVisible(accessToTwitterAccountsTitleId, 30001)
@@ -120,10 +118,9 @@ helper.extend('loginToTwitter', async (email, username, password) => {
         .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30003)
         .click(accessToTwitterAccountsAcceptButtonId)
     } catch (error) {
-      // Do nothing...
+      // Do nothing
     }
 
-    //
     // Action Sheet
     //
     // Buttons: @<Twitter_Username> - optional
@@ -135,7 +132,7 @@ helper.extend('loginToTwitter', async (email, username, password) => {
         .waitForVisible(selectTwitterAccountCancelButtonId, 30005)
         .click(selectTwitterAccountLogInAsAnotherUserButtonId)
     } catch (error) {
-      // Do nothing...
+      // Do nothing
     }
 
     // Sign in
@@ -156,29 +153,27 @@ helper.extend('loginToTwitter', async (email, username, password) => {
         .waitForVisible(confirmEmailSubmitButtonId, 30010)
         .click(confirmEmailSubmitButtonId)
     } catch (e) {
-        // Do nothing
+      // Do nothing
     }
 
     // Authorize app if needed
     try {
       await driver
-          .waitForVisible(authorizeAppButtonId, 30011)
-          .click(authorizeAppButtonId)
+        .waitForVisible(authorizeAppButtonId, 30011)
+        .click(authorizeAppButtonId)
     } catch (e) {
-        // Do nothing
+      // Do nothing
     }
   }
 
   if (platform('android')) {
-    //
     // Sign out Button
-    //
     try {
       await driver
         .waitForVisible(signOutButtonId, 30007)
         .click(signOutButtonId)
     } catch (error) {
-      // Do nothing...
+      // Do nothing
     }
 
     await driver
@@ -198,16 +193,16 @@ helper.extend('loginToTwitter', async (email, username, password) => {
         .waitForVisible(confirmEmailSubmitButtonId, 30010)
         .click(confirmEmailSubmitButtonId)
     } catch (e) {
-        // Do nothing
+      // Do nothing
     }
 
     // Authorize app if needed
     try {
       await driver
-          .waitForVisible(authorizeAppButtonId, 30011)
-          .click(authorizeAppButtonId)
+        .waitForVisible(authorizeAppButtonId, 30011)
+        .click(authorizeAppButtonId)
     } catch (e) {
-        // Do nothing
+      // Do nothing
     }
   }
 })

@@ -10,14 +10,12 @@ helper.extend('loginToTwitterWithSystemAccount', async (username) => {
   const selectTwitterAccountCancelButtonId = idFromAccessId('Cancel')
 
   if (platform('ios')) {
-    //
     // Alert
     //
     // Title: “example” Would Like Access to Twitter Accounts
     //
     // Button: Don’t Allow
     // Button: OK
-    //
     try {
       await driver
         .waitForVisible(accessToTwitterAccountsTitleId, 30001)
@@ -25,10 +23,9 @@ helper.extend('loginToTwitterWithSystemAccount', async (username) => {
         .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30003)
         .click(accessToTwitterAccountsAcceptButtonId)
     } catch (error) {
-      // Do nothing...
+      // Do nothing
     }
 
-    //
     // Action Sheet
     //
     // Buttons: @<Twitter_Username> - optional
