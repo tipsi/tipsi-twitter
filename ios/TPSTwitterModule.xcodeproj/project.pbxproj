@@ -191,6 +191,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"${SRCROOT}/../../../ios/Pods/Headers/Public/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -226,6 +231,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"${SRCROOT}/../../../ios/Pods/Headers/Public/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -236,18 +246,6 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../../ios/**";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../../../ios/Pods/Headers/Public/TwitterKit/**",
-					"$(SRCROOT)/../../../ios/Pods/Headers/Public/TwitterCore/**",
-					"$(SRCROOT)/../../../ios/Pods/Headers/Public/OAuthCore/**",
-					"$(SRCROOT)/../../../ios/Pods/Headers/Public/NSData+Base64/**",
-					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/../../react-native/Libraries/**",
-					"$(SRCROOT)/../../react/**",
-				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = TPSTwitterModule;
 				SKIP_INSTALL = YES;
@@ -257,18 +255,6 @@
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../../ios/**";
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../../../ios/Pods/Headers/Public/TwitterKit/**",
-					"$(SRCROOT)/../../../ios/Pods/Headers/Public/TwitterCore/**",
-					"$(SRCROOT)/../../../ios/Pods/Headers/Public/OAuthCore/**",
-					"$(SRCROOT)/../../../ios/Pods/Headers/Public/NSData+Base64/**",
-					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/../../react-native/Libraries/**",
-					"$(SRCROOT)/../../react/**",
-				);
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = TPSTwitterModule;
 				SKIP_INSTALL = YES;
