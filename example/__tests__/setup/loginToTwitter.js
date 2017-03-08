@@ -5,11 +5,11 @@ helper.extend('loginToTwitter', async (email, username, password) => {
 
   const usernameFieldId = select({
     ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeOther/
-      XCUIElementTypeTextField
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeOther[1]/
+      XCUIElementTypeTextField[1]
     `),
     android: idFromXPath(`
       //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
@@ -19,11 +19,11 @@ helper.extend('loginToTwitter', async (email, username, password) => {
   })
   const passwordFieldId = select({
     ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
       XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/
-      XCUIElementTypeSecureTextField
+      XCUIElementTypeSecureTextField[1]
     `),
     android: idFromXPath(`
       //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
@@ -33,10 +33,10 @@ helper.extend('loginToTwitter', async (email, username, password) => {
   })
   const submitButtonId = select({
     ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther[2]/XCUIElementTypeOther[4]/XCUIElementTypeButton
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[2]/XCUIElementTypeOther[4]/XCUIElementTypeButton[1]
     `),
     android: idFromXPath(`
       //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
@@ -46,10 +46,10 @@ helper.extend('loginToTwitter', async (email, username, password) => {
   })
   const confirmEmailFieldId = select({
     ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther[9]/XCUIElementTypeTextField
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[9]/XCUIElementTypeTextField[1]
     `),
     android: idFromXPath(`
       //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
@@ -59,10 +59,10 @@ helper.extend('loginToTwitter', async (email, username, password) => {
   })
   const confirmEmailSubmitButtonId = select({
     ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeButton
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeButton[1]
     `),
     android: idFromXPath(`
       //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
@@ -72,10 +72,10 @@ helper.extend('loginToTwitter', async (email, username, password) => {
   })
   const authorizeAppButtonId = select({
     ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeButton
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeButton[1]
     `),
     android: idFromXPath(`
       //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
@@ -91,9 +91,9 @@ helper.extend('loginToTwitter', async (email, username, password) => {
   const selectTwitterAccountLogInAsAnotherUserButtonId = idFromAccessId('Log in as another user')
   const selectTwitterAccountCancelButtonId = idFromAccessId('Cancel')
   const doneButtonId = idFromXPath(`
-    //XCUIElementTypeApplication/XCUIElementTypeWindow[2]/XCUIElementTypeOther/
-    XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/
-    XCUIElementTypeToolbar/XCUIElementTypeButton[3]
+    //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[2]/XCUIElementTypeOther[1]/
+    XCUIElementTypeOther[1]/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeToolbar[1]/
+    XCUIElementTypeButton[3]
   `)
 
   // Android only
