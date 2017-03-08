@@ -112,7 +112,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
     if (self.consumerKey && self.consumerSecret) {
         ACAccountStore *account = [[ACAccountStore alloc] init];
         ACAccountType *accountType = [account accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-        
+
         __typeof__(self) __weak weakSelf = self;
         [account requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -120,7 +120,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                     NSArray *accounts = [account accountsWithAccountType:accountType];
                     if (accounts.count) {
                         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-                        
+
                         // Login With ACAccount Actions
                         for (ACAccount *account in accounts) {
                             void(^createSessionFromAccountHandler)(TWTRSession *, NSError *) = ^(TWTRSession *session, NSError *error) {
@@ -149,7 +149,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                                                      handler:actionHandler];
                             [alert addAction:action];
                         }
-                        
+
                         // Login With Web Based Action
                         void(^webLoginActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
                             __strong typeof(self) strongSelf = weakSelf;
@@ -160,7 +160,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                                                          style:UIAlertActionStyleDefault
                                                          handler:webLoginActionHandler];
                         [alert addAction:webLoginAction];
-                        
+
                         // Cancel Action
                         void(^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
                             __strong typeof(self) strongSelf = weakSelf;
@@ -172,7 +172,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                                                        style:UIAlertActionStyleCancel
                                                        handler:cancelActionHandler];
                         [alert addAction:cancelAction];
-                        
+
                         [RCTPresentedViewController() presentViewController:alert animated:YES completion:nil];
                     } else {
                         __strong typeof(self) strongSelf = weakSelf;
@@ -216,9 +216,9 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
             }
         } else {
             NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-            
+
             NSDictionary *twitterCredential = [self parseQueryString:responseStr];
-            
+
             TWTRSession *session = [[TWTRSession alloc] initWithAuthToken:twitterCredential[@"oauth_token"] authTokenSecret:twitterCredential[@"oauth_token_secret"] userName:twitterCredential[@"screen_name"] userID:twitterCredential[@"user_id"]];
             if (handler) {
                 handler(session, nil);
@@ -259,7 +259,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
         request.HTTPMethod = @"POST";
         [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
         request.HTTPBody = bodyData;
-        
+
         [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             completion(data, connectionError);
         }];
@@ -284,15 +284,15 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
 - (NSDictionary *)parseQueryString:(NSString *)string {
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
     NSArray *urlComponents = [string componentsSeparatedByString:@"&"];
-    
+
     for (NSString *keyValuePair in urlComponents) {
         NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
         NSString *key = [pairComponents objectAtIndex:0];
         NSString *value = [pairComponents objectAtIndex:1];
-        
+
         [queryStringDictionary setObject:value forKey:key];
     }
-    
+
     return queryStringDictionary;
 }
 
@@ -304,14 +304,14 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
 
 - (NSError *)buildErrorWithCode:(NSInteger)code localizedDescription:(NSString *)localizedDescription underlyingError:(NSError *)underlyingError {
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-    
+
     if ([localizedDescription length]) {
         userInfo[NSLocalizedDescriptionKey] = localizedDescription;
     }
     if (underlyingError) {
         userInfo[NSUnderlyingErrorKey] = underlyingError;
     }
-    
+
     return [NSError errorWithDomain:TPSTwitterErrorDomain code:code userInfo:userInfo];
 }
 
@@ -333,7 +333,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
 
 - (NSError *)buildErrorForTwitterKitError:(NSError *)twitterKitError {
     NSError *error = nil;
-    
+
     if ([twitterKitError.domain isEqualToString:TWTRLogInErrorDomain]) {
         if (twitterKitError.code == TWTRLogInErrorCodeCanceled) {
             // log in canceled error
@@ -346,17 +346,17 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
         // unknown error
         error = [self buildUnknownErrorWithUnderlyingError:twitterKitError];
     }
-    
+
     return error;
 }
 
 - (NSString *)buildErrorCodeForError:(NSError *)error {
     NSParameterAssert([error.domain isEqualToString:TPSTwitterErrorDomain]);
-    
+
     NSString *errorCode = [self errorCodesMap][@(error.code)];
-    
+
     NSAssert(errorCode != nil, @"Error code should be");
-    
+
     return errorCode;
 }
 
