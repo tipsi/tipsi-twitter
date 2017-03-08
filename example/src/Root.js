@@ -5,9 +5,9 @@ import {
   View,
   Button,
 } from 'react-native'
-import { TPSTwitterModule } from 'tipsi-twitter'
+import TwitterAuth from 'tipsi-twitter'
 
-TPSTwitterModule.init({
+TwitterAuth.init({
   twitter_key: '<TWITTER_KEY>',
   twitter_secret: '<TWITTER_SECRET>',
 })
@@ -20,7 +20,7 @@ export default class Root extends Component {
 
   handleCustomLoginPress = async () => {
     try {
-      const result = await TPSTwitterModule.login()
+      const result = await TwitterAuth.login()
       this.setState({
         errorMessage: '',
         twitterUserName: result.userName,

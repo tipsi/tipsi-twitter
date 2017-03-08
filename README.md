@@ -40,7 +40,7 @@ Run `react-native link tipsi-twitter` so your project is linked against your Xco
 3. Add `libTPSTwitterModule.a` to `Build Phases` -> `Link Binary With Libraries`.
 4. Click on `TPSTwitterModule.xcodeproj` in Libraries and go the Build Settings tab. Double click the text to the right of `Header Search Paths` and verify that it has `$(SRCROOT)/../../react-native/React` as well as `${SRCROOT}/../../../ios/Pods/Headers/Public` - if they aren't, then add them. This is so Xcode is able to find the headers that the `TPSTwitterModule` source files are referring to by pointing to the header files installed within the `react-native` `node_modules` directory.
 5. Whenever you want to use it within React code now you can:
-  * `import { TPSTwitterModule } from 'tipsi-twitter'`
+  * `import TwitterAuth from 'tipsi-twitter'`
 
 ### Android
 
@@ -81,9 +81,9 @@ project(':tipsi-twitter').projectDir = new File(rootProject.projectDir, '../node
 ```js
 import React, { Component } from 'react'
 import { View, Button } from 'react-native'
-import { TPSTwitterModule } from 'tipsi-twitter'
+import TwitterAuth from 'tipsi-twitter'
 
-TPSTwitterModule.init({
+TwitterAuth.init({
   twitter_key: '<TWITTER_KEY>',
   twitter_secret: '<TWITTER_SECRET>',
 })
@@ -91,7 +91,7 @@ TPSTwitterModule.init({
 class TwitterLogin extends Component {
   handleTwitterLoginFinished = async () => {
     try {
-      const result = await TPSTwitterModule.login()
+      const result = await TwitterAuth.login()
       console.log('User id:', result.userId)
     } catch (error) {
       console.log('Login error:', error)
