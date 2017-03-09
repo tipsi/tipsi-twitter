@@ -5,33 +5,50 @@ const {
   TWITTER_USER,
 } = process.env
 
-const { driver, select, idFromXPath, idFromAccessId } = helper
+const { driver, platform, select, idFromXPath, idFromAccessId } = helper
 
 test('Test Twitter Native Login', async (t) => {
   const loginButtonId = idFromAccessId('loginButton')
   const userNameTextId = select({
     ios: idFromXPath(`
-      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[1]
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeStaticText[1]
     `),
     android: idFromAccessId('twitter_response'),
   })
+
+  const accessToTwitterAccountsAcceptButtonId = idFromAccessId('OK')
+  const selectTwitterAccountId = idFromAccessId(`@${TWITTER_USER}`)
 
   try {
     await driver
       .waitForVisible(loginButtonId, 30001)
       .click(loginButtonId)
+    t.pass('User should be able to see and tap to login button')
 
-    await helper.loginToTwitterWithSystemAccount(TWITTER_USER)
+    // Login To Twitter
+    if (platform('ios')) {
+      // Access To Twitter Accounts if needed
+      await driver
+        .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30002)
+        .click(accessToTwitterAccountsAcceptButtonId)
+        .then(() => (
+          t.pass('User should see access to twitter accounts alert')
+        ))
+        .catch(() => (
+          t.pass('User should not see access to twitter accounts alert')
+        ))
 
-    await driver.waitForVisible(userNameTextId, 30002)
+      // Select Twitter Account (Sign in)
+      await driver
+        .waitForVisible(selectTwitterAccountId, 30003)
+        .click(selectTwitterAccountId)
+        t.pass('User should be able sign to Twitter')
+    }
 
-    const userNameLabel = await helper.getLabel(userNameTextId)
-    t.equal(
-      userNameLabel,
-      `twitterUserName: ${TWITTER_USER}`,
-      'User should be able to sign in to Twitter using system account'
-    )
+    await driver.waitForVisible(userNameTextId, 30004)
+    t.pass('User should see user name')
   } catch (error) {
     await helper.screenshot()
     await helper.source()
