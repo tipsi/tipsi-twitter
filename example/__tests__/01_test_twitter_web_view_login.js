@@ -49,19 +49,6 @@ test('Test Twitter Web View Login', async (t) => {
       android.view.View[2]/android.view.View[3]/android.view.View[4]/android.widget.EditText[1]
     `),
   })
-  const submitButtonId = select({
-    ios: idFromXPath(`
-      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeOther[2]/XCUIElementTypeOther[4]/XCUIElementTypeButton[1]
-    `),
-    android: idFromXPath(`
-      //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
-      android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
-      android.view.View[2]/android.view.View[4]/android.widget.Button[1]
-    `),
-  })
   const confirmEmailFieldId = select({
     ios: idFromXPath(`
       //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
@@ -73,19 +60,6 @@ test('Test Twitter Web View Login', async (t) => {
       //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
       android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
       android.view.View[7]/android.widget.EditText[1]
-    `),
-  })
-  const confirmEmailSubmitButtonId = select({
-    ios: idFromXPath(`
-      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeButton[1]
-    `),
-    android: idFromXPath(`
-      //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
-      android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
-      android.widget.Button[1]
     `),
   })
   const authorizeAppButtonId = select({
@@ -101,7 +75,6 @@ test('Test Twitter Web View Login', async (t) => {
       android.view.View[2]/android.view.View[3]/android.widget.Button[1]
     `),
   })
-
   // iOS only
   const accessToTwitterAccountsAcceptButtonId = idFromAccessId('OK')
   const selectTwitterAccountLogInAsAnotherUserButtonId = idFromAccessId('Log in as another user')
@@ -120,6 +93,16 @@ test('Test Twitter Web View Login', async (t) => {
     //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
     android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
     android.view.View[1]/android.view.View[2]/android.widget.ListView[1]/android.view.View[1]/
+    android.widget.Button[1]
+  `)
+  const submitButtonId = idFromXPath(`
+    //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+    android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
+    android.view.View[2]/android.view.View[4]/android.widget.Button[1]
+  `)
+  const confirmEmailSubmitButtonId = idFromXPath(`
+    //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+    android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
     android.widget.Button[1]
   `)
 
@@ -160,7 +143,7 @@ test('Test Twitter Web View Login', async (t) => {
         .click(nextButtonId)
         .setValue(passwordFieldId, TWITTER_PASS)
         .click(doneButtonId)
-        .click(submitButtonId)
+
       t.pass('User should be able sign to Twitter')
 
       // Confirm Email if needed
@@ -168,28 +151,13 @@ test('Test Twitter Web View Login', async (t) => {
         .waitForVisible(confirmEmailFieldId, 30005)
         .setValue(confirmEmailFieldId, TWITTER_EMAIL)
         .click(doneButtonId)
-        .waitForVisible(confirmEmailSubmitButtonId, 30006)
-        .click(confirmEmailSubmitButtonId)
         .then(() => (
           t.pass('User should see confirm twitter email web page')
         ))
         .catch(() => (
           t.pass('User should not see confirm twitter email web page')
         ))
-
-      // Authorize app if needed
-      await driver
-        .waitForVisible(authorizeAppButtonId, 30007)
-        .click(authorizeAppButtonId)
-        .then(() => (
-          t.pass('User should see authorize button after confirm twitter email web page')
-        ))
-        .catch(() => (
-          t.pass('User should not see authorize button after confirm twitter email web page')
-        ))
-    }
-
-    if (platform('android')) {
+    } else {
       // Sign out if needed
       await driver
         .waitForVisible(signOutButtonId, 30008)
@@ -209,7 +177,8 @@ test('Test Twitter Web View Login', async (t) => {
         .setValue(passwordFieldId, TWITTER_PASS)
         .back()
         .click(submitButtonId)
-        t.pass('User should to see twitter sign in web page and should be able tap to submit button')
+
+      t.pass('User should to see twitter sign in web page and should be able tap to submit button')
 
       // Confirm Email if needed
       await driver
@@ -224,18 +193,18 @@ test('Test Twitter Web View Login', async (t) => {
         .catch(() => (
           t.pass('User should not see confirm twitter email web page')
         ))
-
-      // Authorize app if needed
-      await driver
-        .waitForVisible(authorizeAppButtonId, 30012)
-        .click(authorizeAppButtonId)
-        .then(() => (
-          t.pass('User should see authorize button after confirm twitter email web page')
-        ))
-        .catch(() => (
-          t.pass('User should not see authorize button after confirm twitter email web page')
-        ))
     }
+
+    // Authorize app if needed
+    await driver
+      .waitForVisible(authorizeAppButtonId, 30012)
+      .click(authorizeAppButtonId)
+      .then(() => (
+        t.pass('User should see authorize button after confirm twitter email web page')
+      ))
+      .catch(() => (
+        t.pass('User should not see authorize button after confirm twitter email web page')
+      ))
 
     await driver.waitForVisible(userNameTextId, 30013)
     t.pass('User should see user name')
