@@ -38,6 +38,7 @@ if File.exist? @podfile_path
     end
   else
     puts "TwitterKit pod is already added in Podfile\n"
+    exit
   end
 else
   puts 'Adding Podfile to iOS project'
