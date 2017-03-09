@@ -140,8 +140,11 @@ helper.extend('loginToTwitter', async (email, username, password) => {
       .waitForVisible(usernameFieldId, 30006)
       .setValue(usernameFieldId, username)
       .click(doneButtonId)
+      .waitForVisible(passwordFieldId, 30007)
       .setValue(passwordFieldId, password)
+      .waitForVisible(doneButtonId, 30008)
       .click(doneButtonId)
+      .waitForVisible(submitButtonId, 30009)
       .click(submitButtonId)
 
     // Confirm Email if needed
