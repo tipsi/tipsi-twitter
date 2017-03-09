@@ -1,3 +1,3 @@
+import './getLabel'
 import './loginToTwitter'
 import './loginToTwitterWithSystemAccount'
-import './getLabel'

@@ -3,6 +3,8 @@ import helper from 'tipsi-appium-helper'
 helper.extend('loginToTwitter', async (email, username, password) => {
   const { driver, platform, idFromAccessId, idFromXPath, select } = helper
 
+  const dontThrow = () => {}
+
   const usernameFieldId = select({
     ios: idFromXPath(`
       //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
@@ -83,7 +85,6 @@ helper.extend('loginToTwitter', async (email, username, password) => {
       android.view.View[2]/android.view.View[3]/android.widget.Button[1]
     `),
   })
-
   // iOS only
   const accessToTwitterAccountsTitleId = idFromAccessId('“example” Would Like Access to Twitter Accounts')
   const accessToTwitterAccountsDeclineButtonId = idFromAccessId('Don’t Allow')
@@ -91,11 +92,15 @@ helper.extend('loginToTwitter', async (email, username, password) => {
   const selectTwitterAccountLogInAsAnotherUserButtonId = idFromAccessId('Log in as another user')
   const selectTwitterAccountCancelButtonId = idFromAccessId('Cancel')
   const doneButtonId = idFromXPath(`
+    //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[4]/XCUIElementTypeOther[1]/
+    XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElementTypeKeyboard[1]/XCUIElementTypeOther[1]/
+    XCUIElementTypeOther[1]/XCUIElementTypeButton[4]
+  `)
+  const nextButtonId = idFromXPath(`
     //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[2]/XCUIElementTypeOther[1]/
     XCUIElementTypeOther[1]/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeToolbar[1]/
-    XCUIElementTypeButton[3]
-  `)
-
+    XCUIElementTypeButton[2]`
+  )
   // Android only
   const signOutButtonId = idFromXPath(`
     //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
@@ -111,74 +116,54 @@ helper.extend('loginToTwitter', async (email, username, password) => {
     //
     // Button: Don’t Allow
     // Button: OK
-    try {
-      await driver
-        .waitForVisible(accessToTwitterAccountsTitleId, 30001)
-        .waitForVisible(accessToTwitterAccountsDeclineButtonId, 30002)
-        .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30003)
-        .click(accessToTwitterAccountsAcceptButtonId)
-    } catch (error) {
-      // Do nothing
-    }
+    await driver
+      .waitForVisible(accessToTwitterAccountsTitleId, 30001)
+      .waitForVisible(accessToTwitterAccountsDeclineButtonId, 30002)
+      .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30003)
+      .click(accessToTwitterAccountsAcceptButtonId)
+      .catch(dontThrow)
 
     // Action Sheet
     //
     // Buttons: @<Twitter_Username> - optional
     // Button: Log in as another user
     // Button: Cancel
-    try {
-      await driver
-        .waitForVisible(selectTwitterAccountLogInAsAnotherUserButtonId, 30004)
-        .waitForVisible(selectTwitterAccountCancelButtonId, 30005)
-        .click(selectTwitterAccountLogInAsAnotherUserButtonId)
-    } catch (error) {
-      // Do nothing
-    }
+    await driver
+      .waitForVisible(selectTwitterAccountLogInAsAnotherUserButtonId, 30004)
+      .waitForVisible(selectTwitterAccountCancelButtonId, 30005)
+      .click(selectTwitterAccountLogInAsAnotherUserButtonId)
+      .catch(dontThrow)
 
     // Sign in
     await driver
       .waitForVisible(usernameFieldId, 30006)
       .setValue(usernameFieldId, username)
-      .click(doneButtonId)
-      .waitForVisible(passwordFieldId, 30007)
+      .click(nextButtonId)
       .setValue(passwordFieldId, password)
-      .waitForVisible(doneButtonId, 30008)
       .click(doneButtonId)
-      .waitForVisible(submitButtonId, 30009)
-      .click(submitButtonId)
 
     // Confirm Email if needed
-    try {
-      await driver
-        .waitForVisible(confirmEmailFieldId, 30009)
-        .setValue(confirmEmailFieldId, email)
-        .click(doneButtonId)
-        .waitForVisible(confirmEmailSubmitButtonId, 30010)
-        .click(confirmEmailSubmitButtonId)
-    } catch (e) {
-      // Do nothing
-    }
+    await driver
+      .waitForVisible(confirmEmailFieldId, 30009)
+      .setValue(confirmEmailFieldId, email)
+      .click(doneButtonId)
+      .catch(dontThrow)
 
     // Authorize app if needed
-    try {
-      await driver
-        .waitForVisible(authorizeAppButtonId, 30011)
-        .click(authorizeAppButtonId)
-    } catch (e) {
-      // Do nothing
-    }
+    await driver
+      .waitForVisible(authorizeAppButtonId, 30011)
+      .click(authorizeAppButtonId)
+      .catch(dontThrow)
   }
 
   if (platform('android')) {
     // Sign out Button
-    try {
-      await driver
-        .waitForVisible(signOutButtonId, 30007)
-        .click(signOutButtonId)
-    } catch (error) {
-      // Do nothing
-    }
+    await driver
+      .waitForVisible(signOutButtonId, 30007)
+      .click(signOutButtonId)
+      .catch(dontThrow)
 
+    // Sign in
     await driver
       .waitForVisible(usernameFieldId, 30008)
       .setValue(usernameFieldId, username)
@@ -188,24 +173,18 @@ helper.extend('loginToTwitter', async (email, username, password) => {
       .click(submitButtonId)
 
     // Confirm Email if needed
-    try {
-      await driver
-        .waitForVisible(confirmEmailFieldId, 30009)
-        .setValue(confirmEmailFieldId, email)
-        .back()
-        .waitForVisible(confirmEmailSubmitButtonId, 30010)
-        .click(confirmEmailSubmitButtonId)
-    } catch (e) {
-      // Do nothing
-    }
+    await driver
+      .waitForVisible(confirmEmailFieldId, 30009)
+      .setValue(confirmEmailFieldId, email)
+      .back()
+      .waitForVisible(confirmEmailSubmitButtonId, 30010)
+      .click(confirmEmailSubmitButtonId)
+      .catch(dontThrow)
 
     // Authorize app if needed
-    try {
-      await driver
-        .waitForVisible(authorizeAppButtonId, 30011)
-        .click(authorizeAppButtonId)
-    } catch (e) {
-      // Do nothing
-    }
+    await driver
+      .waitForVisible(authorizeAppButtonId, 30011)
+      .click(authorizeAppButtonId)
+      .catch(dontThrow)
   }
 })

@@ -3,11 +3,14 @@ import helper from 'tipsi-appium-helper'
 helper.extend('loginToTwitterWithSystemAccount', async (username) => {
   const { driver, platform, idFromAccessId } = helper
 
+  const dontThrow = () => {}
+
   const accessToTwitterAccountsTitleId = idFromAccessId('“example” Would Like Access to Twitter Accounts')
   const accessToTwitterAccountsDeclineButtonId = idFromAccessId('Don’t Allow')
   const accessToTwitterAccountsAcceptButtonId = idFromAccessId('OK')
   const selectTwitterAccountLogInAsAnotherUserButtonId = idFromAccessId('Log in as another user')
   const selectTwitterAccountCancelButtonId = idFromAccessId('Cancel')
+  const selectTwitterAccountId = idFromAccessId(`@${username}`)
 
   if (platform('ios')) {
     // Alert
@@ -16,15 +19,12 @@ helper.extend('loginToTwitterWithSystemAccount', async (username) => {
     //
     // Button: Don’t Allow
     // Button: OK
-    try {
-      await driver
-        .waitForVisible(accessToTwitterAccountsTitleId, 30001)
-        .waitForVisible(accessToTwitterAccountsDeclineButtonId, 30002)
-        .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30003)
-        .click(accessToTwitterAccountsAcceptButtonId)
-    } catch (error) {
-      // Do nothing
-    }
+    await driver
+      .waitForVisible(accessToTwitterAccountsTitleId, 30001)
+      .waitForVisible(accessToTwitterAccountsDeclineButtonId, 30002)
+      .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30003)
+      .click(accessToTwitterAccountsAcceptButtonId)
+      .catch(dontThrow)
 
     // Action Sheet
     //
@@ -33,7 +33,6 @@ helper.extend('loginToTwitterWithSystemAccount', async (username) => {
     // Button: Cancel
 
     // Sign in
-    const selectTwitterAccountId = idFromAccessId(`@${username}`)
     await driver
       .waitForVisible(selectTwitterAccountLogInAsAnotherUserButtonId, 30004)
       .waitForVisible(selectTwitterAccountCancelButtonId, 30004)
