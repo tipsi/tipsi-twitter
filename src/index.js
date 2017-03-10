@@ -1,5 +1,3 @@
-import TPSTwitterModule from './TPSTwitterModule'
+import TwitterAuth from './TwitterAuth'
 
-export {
-  TPSTwitterModule,
-}
+export default TwitterAuth

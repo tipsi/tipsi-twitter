@@ -2,131 +2,212 @@ import test from 'tape-async'
 import helper from 'tipsi-appium-helper'
 
 const {
+  TWITTER_EMAIL,
   TWITTER_USER,
   TWITTER_PASS,
 } = process.env
 
-const { driver, select, platform, idFromXPath, idFromAccessId } = helper
+const { driver, platform, select, idFromXPath, idFromAccessId } = helper
 
 test('Test Twitter Web View Login', async (t) => {
-  const loginButtonID = idFromAccessId('loginButton')
-
-  const permissionAlertID = idFromXPath(`
-    //XCUIElementTypeApplication/XCUIElementTypeWindow[6]/
-    XCUIElementTypeOther[2]/XCUIElementTypeAlert
-  `)
-
-  const permissionAlertAgreeButtonID = idFromXPath(`
-    //XCUIElementTypeApplication/XCUIElementTypeWindow[6]/XCUIElementTypeOther[2]/
-    XCUIElementTypeAlert/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther[3]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/
-    XCUIElementTypeButton
-  `)
-
-  const loginAsAnotherUserButtonID = idFromXPath(`
-    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
-    XCUIElementTypeSheet/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/
-    XCUIElementTypeButton
-  `)
-
-  const webViewEmailFieldID = select({
+  const loginButtonId = idFromAccessId('loginButton')
+  const userNameTextId = select({
     ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-      XCUIElementTypeOther[3]/XCUIElementTypeOther
-    `),
-    android: idFromXPath('//*/android.view.View[2]/android.widget.EditText[1]'),
-  })
-
-  const webViewPasswordFieldID = select({
-    ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-      XCUIElementTypeOther[3]/XCUIElementTypeOther[2]
-    `),
-    android: idFromXPath('//*/android.view.View[4]/android.widget.EditText[1]'),
-  })
-
-  const webViewAuthorizeAppButtonID = select({
-    ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-      XCUIElementTypeOther[4]/XCUIElementTypeButton
-    `),
-    android: idFromXPath('//*/android.widget.Button[1]'),
-  })
-
-  const userNameTextID = select({
-    ios: idFromXPath(`
-      //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
-      XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeStaticText[1]
     `),
     android: idFromAccessId('twitter_response'),
   })
 
+  // Web View
+  const usernameFieldId = select({
+    ios: idFromXPath(`
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeOther[1]/
+      XCUIElementTypeTextField[1]
+    `),
+    android: idFromXPath(`
+      //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+      android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
+      android.view.View[2]/android.view.View[3]/android.view.View[2]/android.widget.EditText[1]
+    `),
+  })
+  const passwordFieldId = select({
+    ios: idFromXPath(`
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/
+      XCUIElementTypeSecureTextField[1]
+    `),
+    android: idFromXPath(`
+      //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+      android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
+      android.view.View[2]/android.view.View[3]/android.view.View[4]/android.widget.EditText[1]
+    `),
+  })
+  const confirmEmailFieldId = select({
+    ios: idFromXPath(`
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[9]/XCUIElementTypeTextField[1]
+    `),
+    android: idFromXPath(`
+      //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+      android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
+      android.view.View[7]/android.widget.EditText[1]
+    `),
+  })
+  const authorizeAppButtonId = select({
+    ios: idFromXPath(`
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeButton[1]
+    `),
+    android: idFromXPath(`
+      //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+      android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
+      android.view.View[2]/android.view.View[3]/android.widget.Button[1]
+    `),
+  })
+  // iOS only
+  const accessToTwitterAccountsAcceptButtonId = idFromAccessId('OK')
+  const selectTwitterAccountLogInAsAnotherUserButtonId = idFromAccessId('Log in as another user')
+  const doneButtonId = idFromXPath(`
+    //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[4]/XCUIElementTypeOther[1]/
+    XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElementTypeKeyboard[1]/XCUIElementTypeOther[1]/
+    XCUIElementTypeOther[1]/XCUIElementTypeButton[4]
+  `)
+  const nextButtonId = idFromXPath(`
+    //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[2]/XCUIElementTypeOther[1]/
+    XCUIElementTypeOther[1]/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeToolbar[1]/
+    XCUIElementTypeButton[2]`
+  )
+  // Android only
+  const signOutButtonId = idFromXPath(`
+    //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+    android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
+    android.view.View[1]/android.view.View[2]/android.widget.ListView[1]/android.view.View[1]/
+    android.widget.Button[1]
+  `)
+  const submitButtonId = idFromXPath(`
+    //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+    android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
+    android.view.View[2]/android.view.View[4]/android.widget.Button[1]
+  `)
+  const confirmEmailSubmitButtonId = idFromXPath(`
+    //android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/
+    android.widget.RelativeLayout[1]/android.webkit.WebView[1]/android.webkit.WebView[1]/
+    android.widget.Button[1]
+  `)
+
   try {
-    await driver.waitForVisible(loginButtonID, 60000)
-    t.pass('The user should be able to see "Login Button" button')
+    await driver
+      .waitForVisible(loginButtonId, 30001)
+      .click(loginButtonId)
+    t.pass('User should be able to see and tap to login button')
 
-    await driver.click(loginButtonID)
-    t.pass('The user should be able to click on "Login Button" button')
-
+    // Login To Twitter
     if (platform('ios')) {
-      try {
-        await driver.waitForVisible(permissionAlertID, 10000)
-        t.pass('The user should be able to see social account permission alert view')
-        await driver.click(permissionAlertAgreeButtonID)
-        t.pass('The user should be able to click on "Agree" button on social account permission alert view')
-      } catch (error) {
-        // Do nothing...
-      }
+      // Access To Twitter Accounts if needed
+      await driver
+        .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30002)
+        .click(accessToTwitterAccountsAcceptButtonId)
+        .then(() => (
+          t.pass('User should see access to twitter accounts alert')
+        ))
+        .catch(() => (
+          t.pass('User should not see access to twitter accounts alert')
+        ))
 
-      try {
-        await driver.waitForVisible(loginAsAnotherUserButtonID, 10000)
-        t.pass('The user should be able to see "Log in as another user" button')
-        await driver.click(loginAsAnotherUserButtonID)
-        t.pass('The user should be able to click on "Log in as another user" button')
-      } catch (error) {
-        // Do nothing...
-      }
+      // Select Twitter Account if needed
+      await driver
+        .waitForVisible(selectTwitterAccountLogInAsAnotherUserButtonId, 30003)
+        .click(selectTwitterAccountLogInAsAnotherUserButtonId)
+        .then(() => (
+          t.pass('User should see select twitter account action sheet')
+        ))
+        .catch(() => (
+          t.pass('User should not see select twitter account action sheet')
+        ))
+
+      // Sign in
+      await driver
+        .waitForVisible(usernameFieldId, 30004)
+        .setValue(usernameFieldId, TWITTER_USER)
+        .click(nextButtonId)
+        .setValue(passwordFieldId, TWITTER_PASS)
+        .click(doneButtonId)
+
+      t.pass('User should be able sign to Twitter')
+
+      // Confirm Email if needed
+      await driver
+        .waitForVisible(confirmEmailFieldId, 30005)
+        .setValue(confirmEmailFieldId, TWITTER_EMAIL)
+        .click(doneButtonId)
+        .then(() => (
+          t.pass('User should see confirm twitter email web page')
+        ))
+        .catch(() => (
+          t.pass('User should not see confirm twitter email web page')
+        ))
+    } else {
+      // Sign out if needed
+      await driver
+        .waitForVisible(signOutButtonId, 30008)
+        .click(signOutButtonId)
+        .then(() => (
+          t.pass('User should not see sign out web page')
+        ))
+        .catch(() => (
+          t.pass('User should not see sign out web page')
+        ))
+
+      // Sign in
+      await driver
+        .waitForVisible(usernameFieldId, 30009)
+        .setValue(usernameFieldId, TWITTER_USER)
+        .back()
+        .setValue(passwordFieldId, TWITTER_PASS)
+        .back()
+        .click(submitButtonId)
+
+      t.pass('User should to see twitter sign in web page and should be able tap to submit button')
+
+      // Confirm Email if needed
+      await driver
+        .waitForVisible(confirmEmailFieldId, 30010)
+        .setValue(confirmEmailFieldId, TWITTER_EMAIL)
+        .back()
+        .waitForVisible(confirmEmailSubmitButtonId, 30011)
+        .click(confirmEmailSubmitButtonId)
+        .then(() => (
+          t.pass('User should see confirm twitter email web page')
+        ))
+        .catch(() => (
+          t.pass('User should not see confirm twitter email web page')
+        ))
     }
 
-    // web login
-    await driver.waitForVisible(webViewEmailFieldID, 60000)
-    t.pass('The user should be able to see "Username or email" field on web view')
-    await driver.click(webViewEmailFieldID)
-    await driver.keys(TWITTER_USER)
-    t.pass('The user should be able fill username to "Username or email" field on web view')
+    // Authorize app if needed
+    await driver
+      .waitForVisible(authorizeAppButtonId, 30012)
+      .click(authorizeAppButtonId)
+      .then(() => (
+        t.pass('User should see authorize button after confirm twitter email web page')
+      ))
+      .catch(() => (
+        t.pass('User should not see authorize button after confirm twitter email web page')
+      ))
 
-    if (platform('android')) {
-      await driver.back()
-    }
-
-    await driver.waitForVisible(webViewPasswordFieldID, 60000)
-    t.pass('The user should be able to see "Password" field on web view')
-    await driver.click(webViewPasswordFieldID)
-    await driver.keys(TWITTER_PASS)
-    t.pass('The user should be able fill password to "Password" field on web view')
-
-    if (platform('android')) {
-      await driver.back()
-    }
-
-    await driver.waitForVisible(webViewAuthorizeAppButtonID, 60000)
-    t.pass('The user should be able to see "Authorize app" button on web view')
-    await driver.click(webViewAuthorizeAppButtonID)
-    t.pass('The user should be able to click on "Authorize app" button on web view')
-
-    await driver.waitForVisible(userNameTextID, 60000)
-    t.pass('The user should be able to see user name label')
-    const userNameText = `twitterUserName: ${TWITTER_USER}`
-
-    const sut_userNameText = await driver.getText(userNameTextID);
-    t.equal(sut_userNameText, userNameText, `The user should be able to see user name label with text: "${userNameText}"`);
+    await driver.waitForVisible(userNameTextId, 30013)
+    t.pass('User should see user name')
   } catch (error) {
     await helper.screenshot()
     await helper.source()

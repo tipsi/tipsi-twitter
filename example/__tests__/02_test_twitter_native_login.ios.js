@@ -3,49 +3,52 @@ import helper from 'tipsi-appium-helper'
 
 const {
   TWITTER_USER,
-  TWITTER_PASS,
 } = process.env
 
-const { driver, idFromXPath, idFromAccessId } = helper
+const { driver, select, idFromXPath, idFromAccessId } = helper
 
 test('Test Twitter Native Login', async (t) => {
-  const loginButtonID = idFromAccessId('loginButton')
+  const loginButtonId = idFromAccessId('loginButton')
+  const userNameTextId = select({
+    ios: idFromXPath(`
+      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
+      XCUIElementTypeOther[1]/XCUIElementTypeStaticText[1]
+    `),
+    android: idFromAccessId('twitter_response'),
+  })
 
-  const usersActionSheetID = idFromXPath(`
-    //XCUIElementTypeApplication/XCUIElementTypeWindow/
-    XCUIElementTypeOther[2]/XCUIElementTypeSheet
-  `)
-
-  const firstUserButtonID = idFromXPath(`
-    /XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther[2]/
-    XCUIElementTypeSheet/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/
-    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther
-  `)
-
-  const userNameTextID = idFromXPath(`
-    //XCUIElementTypeApplication/XCUIElementTypeWindow/XCUIElementTypeOther/XCUIElementTypeOther/
-    XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText
-  `)
+  const accessToTwitterAccountsAcceptButtonId = idFromAccessId('OK')
+  const selectTwitterAccountId = idFromAccessId(`@${TWITTER_USER}`)
 
   try {
-    await driver.waitForVisible(loginButtonID, 60000)
-    t.pass('The user should be able to see "Login Button" button')
+    await driver
+      .waitForVisible(loginButtonId, 30001)
+      .click(loginButtonId)
 
-    await driver.click(loginButtonID)
-    t.pass('The user should be able to click on "Login Button" button')
+    t.pass('User should be able to see and tap to login button')
 
-    await driver.waitForVisible(usersActionSheetID, 60000)
-    t.pass('The user should be able to see list of twitter accounts')
+    // Access To Twitter Accounts if needed
+    await driver
+      .waitForVisible(accessToTwitterAccountsAcceptButtonId, 30002)
+      .click(accessToTwitterAccountsAcceptButtonId)
+      .then(() => (
+        t.pass('User should see access to twitter accounts alert')
+      ))
+      .catch(() => (
+        t.pass('User should not see access to twitter accounts alert')
+      ))
 
-    await driver.click(firstUserButtonID)
-    t.pass('The user should be able to choose first twitter account')
+    // Select Twitter Account (Sign in)
+    await driver
+      .waitForVisible(selectTwitterAccountId, 30003)
+      .click(selectTwitterAccountId)
 
-    await driver.waitForVisible(userNameTextID, 60000)
-    t.pass('The user should be able to see user name label')
+    t.pass('User should be able sign to Twitter')
 
-    const userNameText = `twitterUserName: ${TWITTER_USER}`
-    const sut_userNameText = await driver.getText(userNameTextID);
-    t.equal(sut_userNameText, userNameText, `The user should be able to see user name label with text: "${userNameText}"`);
+    await driver.waitForVisible(userNameTextId, 30004)
+
+    t.pass('User should see user name')
   } catch (error) {
     await helper.screenshot()
     await helper.source()

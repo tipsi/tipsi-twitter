@@ -14,8 +14,8 @@ buildscript {
 
 allprojects {
     repositories {
-        // Add jitpack repository (added by tipsi-stripe)
-        maven { url "https://jitpack.io" }
+        // Add fabric repository (added by tipsi-twitter)
+        maven { url "https://maven.fabric.io/public" }
         mavenLocal()
         jcenter()
         maven {
