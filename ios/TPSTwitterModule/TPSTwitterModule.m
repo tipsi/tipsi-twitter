@@ -119,7 +119,15 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                 if (granted) {
                     NSArray *accounts = [account accountsWithAccountType:accountType];
                     if (accounts.count) {
-                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+                        NSString *title = nil;
+                        UIAlertControllerStyle alertStyle = UIAlertControllerStyleActionSheet;
+                        
+                        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+                            title = @"Please choose your Twitter account";
+                            alertStyle = UIAlertControllerStyleAlert;
+                        }
+
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:alertStyle];
 
                         // Login With ACAccount Actions
                         for (ACAccount *account in accounts) {
