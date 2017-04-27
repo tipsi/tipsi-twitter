@@ -130,4 +130,5 @@ npm run test:android
 # Run iOS e2e tests
 if isMacOS; then
   npm run test:ios
+  npm run test:ios -- --device-name "iPad Air"
 fi

@@ -6,6 +6,7 @@ case "${TRAVIS_OS_NAME}" in
     npm run configure:ios
     set -o pipefail && npm run build:ios | xcpretty -c -f `xcpretty-travis-formatter`
     npm run test:ios
+    npm run test:ios -- --device-name "iPad Air"
   ;;
   linux)
     cd example_tmp
