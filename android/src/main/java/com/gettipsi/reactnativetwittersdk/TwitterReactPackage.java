@@ -22,7 +22,6 @@ public class TwitterReactPackage implements ReactPackage {
     return Arrays.<NativeModule>asList(new TPSTwitterModule(reactContext));
   }
 
-  @Override
   public List<Class<? extends JavaScriptModule>> createJSModules() {
     return Collections.emptyList();
   }
