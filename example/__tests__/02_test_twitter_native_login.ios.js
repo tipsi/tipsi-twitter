@@ -10,11 +10,7 @@ const { driver, select, idFromXPath, idFromAccessId } = helper
 test('Test Twitter Native Login', async (t) => {
   const loginButtonId = idFromAccessId('loginButton')
   const userNameTextId = select({
-    ios: idFromXPath(`
-      //XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/
-      XCUIElementTypeOther[1]/XCUIElementTypeStaticText[1]
-    `),
+    ios: idFromXPath('//XCUIElementTypeStaticText[1]'),
     android: idFromAccessId('twitter_response'),
   })
 
