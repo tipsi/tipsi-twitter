@@ -15,11 +15,11 @@ test('Test Twitter Web View Login', async (t) => {
   // Web View
   const usernameFieldId = select({
     ios: idFromXPath('//XCUIElementTypeTextField[1]'),
-    android: idFromXPath('//android.view.View[2]/android.widget.EditText[1]'),
+    android: idFromXPath('//android.view.View[1]/android.widget.EditText[1]'),
   })
   const passwordFieldId = select({
     ios: idFromXPath('//XCUIElementTypeSecureTextField[1]'),
-    android: idFromXPath('//android.view.View[4]/android.widget.EditText[1]'),
+    android: idFromXPath('//android.view.View[2]/android.widget.EditText[1]'),
   })
   const confirmEmailFieldId = select({
     ios: idFromXPath('//XCUIElementTypeTextField[1]'),
