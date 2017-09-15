@@ -12,8 +12,8 @@ matrix:
           - platform-tools
           - tools
           - build-tools-25.0.1
-          - android-25
-          - sys-img-armeabi-v7a-android-23
+          - android-21
+          - sys-img-armeabi-v7a-android-21
           - extra-android-m2repository
           - extra-google-m2repository
           - extra-google-google_play_services
@@ -25,7 +25,6 @@ cache:
     - $HOME/.cocoapods
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-    - example/node_modules
 
 before_cache: .travis/before-cache.sh
 before_install: . .travis/before-install.sh
