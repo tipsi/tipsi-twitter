@@ -9,6 +9,7 @@ init_new_example_project() {
   files_to_copy=(
     .appiumhelperrc
     package.json
+    package-lock.json
     index.{ios,android}.js
     android/app/build.gradle
     android/app/src/main/AndroidManifest.xml
