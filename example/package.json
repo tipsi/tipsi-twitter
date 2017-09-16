@@ -21,10 +21,11 @@
   "dependencies": {
     "react": "~15.4.2",
     "react-native": "0.40.0",
-    "tipsi-twitter": "../"
+    "tipsi-twitter": "file:../"
   },
   "devDependencies": {
     "appium": "1.6.4",
+    "babel-preset-react-native": "^4.0.0",
     "npm-run-all": "^3.1.1",
     "tape-async": "^2.1.1",
     "tipsi-appium-helper": "2.0.0",
