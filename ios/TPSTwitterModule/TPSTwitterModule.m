@@ -121,7 +121,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                     if (accounts.count) {
                         NSString *title = nil;
                         UIAlertControllerStyle alertStyle = UIAlertControllerStyleActionSheet;
-                        
+
                         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
                             title = @"Please choose your Twitter account";
                             alertStyle = UIAlertControllerStyleAlert;
