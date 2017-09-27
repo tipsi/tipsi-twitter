@@ -1,7 +1,7 @@
 #import "TPSTwitterModule.h"
 #import <TwitterKit/TwitterKit.h>
 #import <Social/Social.h>
-#import "RCTUtils.h"
+#import <React/RCTUtils.h>
 #import "OAuthCore.h"
 
 typedef void(^TWTAPIHandler)(NSData *data, NSError *error);
@@ -110,198 +110,116 @@ RCT_EXPORT_METHOD(init:(NSDictionary*)twitterCredentials
 RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     if (self.consumerKey && self.consumerSecret) {
-        ACAccountStore *account = [[ACAccountStore alloc] init];
-        ACAccountType *accountType = [account accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-
-        __typeof__(self) __weak weakSelf = self;
-        [account requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (granted) {
-                    NSArray *accounts = [account accountsWithAccountType:accountType];
-                    if (accounts.count) {
-                        NSString *title = nil;
-                        UIAlertControllerStyle alertStyle = UIAlertControllerStyleActionSheet;
-
-                        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-                            title = @"Please choose your Twitter account";
-                            alertStyle = UIAlertControllerStyleAlert;
-                        }
-
-                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:alertStyle];
-
-                        // Login With ACAccount Actions
-                        for (ACAccount *account in accounts) {
-                            void(^createSessionFromAccountHandler)(TWTRSession *, NSError *) = ^(TWTRSession *session, NSError *error) {
-                                __strong typeof(self) strongSelf = weakSelf;
-                                if (error) {
-                                    NSError *rejectError = [strongSelf buildCannotLoadAccountErrorWithUnderlyingError:error];
-                                    reject([strongSelf buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
-                                } else {
-                                    NSDictionary *result = @{
-                                                             TPSTwitterAuthTokenKey: session.authToken,
-                                                             TPSTwitterAuthTokenSecretKey: session.authTokenSecret,
-                                                             TPSTwitterUserIDKey: session.userID,
-                                                             TPSTwitterUserNameKey: session.userName
-                                                             };
-                                    resolve(result);
-                                }
-                            };
-                            void(^actionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
-                                __strong typeof(self) strongSelf = weakSelf;
-                                [strongSelf createSessionFromAccount:account withHandler:createSessionFromAccountHandler];
-                            };
-                            NSString *title = [NSString stringWithFormat:@"@%@", account.username];
-                            UIAlertAction *action = [UIAlertAction
-                                                     actionWithTitle:title
-                                                     style:UIAlertActionStyleDefault
-                                                     handler:actionHandler];
-                            [alert addAction:action];
-                        }
-
-                        // Login With Web Based Action
-                        void(^webLoginActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
-                            __strong typeof(self) strongSelf = weakSelf;
-                            [strongSelf webBasedLogin:resolve rejecter:reject];
-                        };
-                        UIAlertAction *webLoginAction = [UIAlertAction
-                                                         actionWithTitle:NSLocalizedString(@"Log in as another user", nil)
-                                                         style:UIAlertActionStyleDefault
-                                                         handler:webLoginActionHandler];
-                        [alert addAction:webLoginAction];
-
-                        // Cancel Action
-                        void(^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
-                            __strong typeof(self) strongSelf = weakSelf;
-                            NSError *rejectError = [strongSelf buildLogInCanceledErrorWithUnderlyingError:nil];
-                            reject([strongSelf buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
-                        };
-                        UIAlertAction *cancelAction = [UIAlertAction
-                                                       actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                       style:UIAlertActionStyleCancel
-                                                       handler:cancelActionHandler];
-                        [alert addAction:cancelAction];
-
-                        [RCTPresentedViewController() presentViewController:alert animated:YES completion:nil];
-                    } else {
-                        __strong typeof(self) strongSelf = weakSelf;
-                        [strongSelf webBasedLogin:resolve rejecter:reject];
-                    }
-                } else {
-                    __strong typeof(self) strongSelf = weakSelf;
-                    NSError *rejectError = [strongSelf buildAccountPermissionDeniedErrorWithUnderlyingError:error];
-                    reject([strongSelf buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
-                }
-            });
+        [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession * _Nullable session, NSError * _Nullable error) {
+            if (error) {
+                NSError *rejectError = [self buildCannotLoadAccountErrorWithUnderlyingError:error];
+                reject([self buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
+            } else {
+                NSDictionary *result = @{
+                                         TPSTwitterAuthTokenKey: session.authToken,
+                                         TPSTwitterAuthTokenSecretKey: session.authTokenSecret,
+                                         TPSTwitterUserIDKey: session.userID,
+                                         TPSTwitterUserNameKey: session.userName
+                                         };
+                resolve(result);
+            }
         }];
     } else {
         NSError *rejectError = [self buildErrorWithCode:TPSTwitterErrorNoAuthConfiguration localizedDescription:NSLocalizedString(@"Before call login you have to call init with Twitter application's consumer key and secret", nil)];
         reject([self buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
     }
-}
 
-- (void)webBasedLogin:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject {
-    [[Twitter sharedInstance] logInWithMethods:TWTRLoginMethodWebBasedForceLogin completion:^(TWTRSession *session, NSError *error) {
-        if (session) {
-            NSDictionary *result = @{
-                                     TPSTwitterAuthTokenKey: session.authToken,
-                                     TPSTwitterAuthTokenSecretKey: session.authTokenSecret,
-                                     TPSTwitterUserIDKey: session.userID,
-                                     TPSTwitterUserNameKey: session.userName
-                                     };
-            resolve(result);
-        } else {
-            NSError *rejectError = [self buildErrorForTwitterKitError:error];
-            reject([self buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
-        }
-    }];
-}
-
-- (void)createSessionFromAccount:(ACAccount*)account withHandler:(TWTRSessionHandler)handler {
-    [self performReverseAuthForAccount:account withHandler:^(NSData *responseData, NSError *error) {
-        if (error) {
-            if (handler) {
-                handler(nil, error);
+    /*
+     -------------------------------------------------------------------------
+     Use TWTRSessionStore instead of ACAccountStore.accounts
+     When a user authorizes your app to use their account, Twitter Kit will save the session for you. After the first log in you can use Twitter.sharedInstance().sessionStore.session() to get the current authorized session rather than triggering a new log-in flow.
+     
+     Twitter.sharedInstance().sessionStore.hasLoggedInUsers() lets you test if there are any sessions in your app.
+     --------------------------------------------------------------------------
+     ACAccountStore *account = [[ACAccountStore alloc] init];
+    ACAccountType *accountType = [account accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    __typeof__(self) __weak weakSelf = self;
+    [account requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (granted) {
+                NSArray *accounts = [account accountsWithAccountType:accountType];
+                if (accounts.count) {
+                    NSString *title = nil;
+                    UIAlertControllerStyle alertStyle = UIAlertControllerStyleActionSheet;
+                    
+                    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+                        title = @"Please choose your Twitter account";
+                        alertStyle = UIAlertControllerStyleAlert;
+                    }
+                    
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:alertStyle];
+                    
+                    // Login With ACAccount Actions
+                    for (ACAccount *account in accounts) {
+                        void(^createSessionFromAccountHandler)(TWTRSession *, NSError *) = ^(TWTRSession *session, NSError *error) {
+                            __strong typeof(self) strongSelf = weakSelf;
+                            if (error) {
+                                NSError *rejectError = [strongSelf buildCannotLoadAccountErrorWithUnderlyingError:error];
+                                reject([strongSelf buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
+                            } else {
+                                NSDictionary *result = @{
+                                                         TPSTwitterAuthTokenKey: session.authToken,
+                                                         TPSTwitterAuthTokenSecretKey: session.authTokenSecret,
+                                                         TPSTwitterUserIDKey: session.userID,
+                                                         TPSTwitterUserNameKey: session.userName
+                                                         };
+                                resolve(result);
+                            }
+                        };
+                        void(^actionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
+                            __strong typeof(self) strongSelf = weakSelf;
+                            [strongSelf createSessionFromAccount:account withHandler:createSessionFromAccountHandler];
+                        };
+                        NSString *title = [NSString stringWithFormat:@"@%@", account.username];
+                        UIAlertAction *action = [UIAlertAction
+                                                 actionWithTitle:title
+                                                 style:UIAlertActionStyleDefault
+                                                 handler:actionHandler];
+                        [alert addAction:action];
+                    }
+                    
+                    // Login With Web Based Action
+                    void(^webLoginActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
+                        __strong typeof(self) strongSelf = weakSelf;
+                        [strongSelf webBasedLogin:resolve rejecter:reject];
+                    };
+                    UIAlertAction *webLoginAction = [UIAlertAction
+                                                     actionWithTitle:NSLocalizedString(@"Log in as another user", nil)
+                                                     style:UIAlertActionStyleDefault
+                                                     handler:webLoginActionHandler];
+                    [alert addAction:webLoginAction];
+                    
+                    // Cancel Action
+                    void(^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action) {
+                        __strong typeof(self) strongSelf = weakSelf;
+                        NSError *rejectError = [strongSelf buildLogInCanceledErrorWithUnderlyingError:nil];
+                        reject([strongSelf buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
+                    };
+                    UIAlertAction *cancelAction = [UIAlertAction
+                                                   actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                   style:UIAlertActionStyleCancel
+                                                   handler:cancelActionHandler];
+                    [alert addAction:cancelAction];
+                    
+                    [RCTPresentedViewController() presentViewController:alert animated:YES completion:nil];
+                } else {
+                    __strong typeof(self) strongSelf = weakSelf;
+                    [strongSelf webBasedLogin:resolve rejecter:reject];
+                }
+            } else {
+                __strong typeof(self) strongSelf = weakSelf;
+                NSError *rejectError = [strongSelf buildAccountPermissionDeniedErrorWithUnderlyingError:error];
+                reject([strongSelf buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
             }
-        } else {
-            NSString *responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-
-            NSDictionary *twitterCredential = [self parseQueryString:responseStr];
-
-            TWTRSession *session = [[TWTRSession alloc] initWithAuthToken:twitterCredential[@"oauth_token"] authTokenSecret:twitterCredential[@"oauth_token_secret"] userName:twitterCredential[@"screen_name"] userID:twitterCredential[@"user_id"]];
-            if (handler) {
-                handler(session, nil);
-            }
-        }
+        });
     }];
-}
-
-#pragma mark - Twitter Reverse Auth
-
-- (void)performReverseAuthForAccount:(ACAccount *)account withHandler:(TWTAPIHandler)handler {
-    [self _step1WithCompletion:^(NSData *data, NSError *error) {
-        if (!data) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                handler(nil, error);
-            });
-        }
-        else {
-            NSString *signedReverseAuthSignature = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            [self _step2WithAccount:account signature:signedReverseAuthSignature andHandler:^(NSData *responseData, NSError *error2) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    handler(responseData, error2);
-                });
-            }];
-        }
-    }];
-}
-
-- (void)_step1WithCompletion:(TWTAPIHandler)completion {
-    //TwitterKit must be used only from the main thread
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/oauth/request_token"];
-        NSString *paramsString = @"x_auth_mode=reverse_auth&";
-        //  Create the authorization header and attach to our request
-        NSData *bodyData = [paramsString dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *authorizationHeader = OAuthorizationHeader(url, @"POST", bodyData, [Twitter sharedInstance].authConfig.consumerKey, [Twitter sharedInstance].authConfig.consumerSecret, nil, nil);
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        request.HTTPMethod = @"POST";
-        [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
-        request.HTTPBody = bodyData;
-
-        [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-            completion(data, connectionError);
-        }];
-    });
-}
-
-- (void)_step2WithAccount:(ACAccount *)account signature:(NSString *)signedReverseAuthSignature andHandler:(TWTAPIHandler)completion {
-    //TwitterKit must be used only from the main thread
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSDictionary *step2Params = @{@"x_reverse_auth_target": [Twitter sharedInstance].authConfig.consumerKey, @"x_reverse_auth_parameters": signedReverseAuthSignature};
-        NSURL *authTokenURL = [NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"];
-        SLRequest *step2Request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:authTokenURL parameters:step2Params];
-        step2Request.account = account;
-        [step2Request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                completion(responseData, error);
-            });
-        }];
-    });
-}
-
-- (NSDictionary *)parseQueryString:(NSString *)string {
-    NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
-    NSArray *urlComponents = [string componentsSeparatedByString:@"&"];
-
-    for (NSString *keyValuePair in urlComponents) {
-        NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
-        NSString *key = [pairComponents objectAtIndex:0];
-        NSString *value = [pairComponents objectAtIndex:1];
-
-        [queryStringDictionary setObject:value forKey:key];
-    }
-
-    return queryStringDictionary;
+    */
 }
 
 #pragma mark - NSError
@@ -343,7 +261,7 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
     NSError *error = nil;
 
     if ([twitterKitError.domain isEqualToString:TWTRLogInErrorDomain]) {
-        if (twitterKitError.code == TWTRLogInErrorCodeCanceled) {
+        if (twitterKitError.code == TWTRLogInErrorCodeCancelled) {
             // log in canceled error
             error = [self buildLogInCanceledErrorWithUnderlyingError:twitterKitError];
         } else {

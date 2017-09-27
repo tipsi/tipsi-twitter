@@ -3,5 +3,5 @@
 
 target 'example' do
   # use_frameworks!
-  pod 'TwitterKit', '2.7.0'
+  pod 'TwitterKit', '~> 3.1'
 end
