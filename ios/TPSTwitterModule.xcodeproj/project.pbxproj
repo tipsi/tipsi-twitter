@@ -196,7 +196,7 @@
 					"$(SRCROOT)/../../react-native/React/**",
 					"${SRCROOT}/../../../ios/Pods/Headers/Public/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -236,7 +236,7 @@
 					"$(SRCROOT)/../../react-native/React/**",
 					"${SRCROOT}/../../../ios/Pods/Headers/Public/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -246,6 +246,11 @@
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"${SRCROOT}/../example/ios/Pods/Headers/Public/**",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = TPSTwitterModule;
 				SKIP_INSTALL = YES;
@@ -255,6 +260,11 @@
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/../example/ios/Pods/Headers/Public/**",
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = TPSTwitterModule;
 				SKIP_INSTALL = YES;

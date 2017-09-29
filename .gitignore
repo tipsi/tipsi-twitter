@@ -21,7 +21,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-Podfile.lock
 Pods/
 
 # Built application files
