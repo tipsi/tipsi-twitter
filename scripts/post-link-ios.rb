@@ -7,7 +7,7 @@ require 'fileutils'
 Dir.chdir('ios')
 
 @podfile_path = Pathname.pwd + 'Podfile'
-@pod_dep = "  pod 'TwitterKit', '2.7.0'\n"
+@pod_dep = "  pod 'TwitterKit', '~> 3.1'\n"
 
 @project_paths= Pathname.pwd.children.select { |pn| pn.extname == '.xcodeproj' }
 raise 'No Xcode project found' unless @project_paths.length > 0
@@ -44,7 +44,7 @@ else
   puts 'Adding Podfile to iOS project'
   podfile = ''
 
-  podfile << "# Uncomment the next line to define a global platform for your project\n# platform :ios, '8.0'\n"
+  podfile << "platform :ios, '9.0'\n"
   podfile << "\ntarget '#{main_target.name.gsub(/'/, "\\\\\'")}' do\n"
   podfile << @pod_dep
   podfile << "end\n"
