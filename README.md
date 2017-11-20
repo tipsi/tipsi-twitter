@@ -76,6 +76,92 @@ project(':tipsi-twitter').projectDir = new File(rootProject.projectDir, '../node
     </application>
 ```
 
+## Migration guide to 2.0.0
+
+### iOS
+
+Version `2.0.0` works with iOS 9+. In order to to migrate you should:
+
+1. Update `iOS Deployment Target` (`IPHONEOS_DEPLOYMENT_TARGET`) for your target in `.xcodeproj`.
+
+2. Update `platform` in `Podfile`:
+
+```
+// remove this line
+platform :ios, '8.0'
+
+// add this line
+platform :ios, '9.0'
+```
+
+2. Update `TwitterKit` pod dependency in `Podfile`:
+
+```
+// remove this line
+pod 'TwitterKit', '2.7.0'
+
+// add this line
+pod 'TwitterKit', '~> 3.1'
+```
+
+3. Update object which implement `UIApplicationDelegate` (more often `AppDelegate.m`):
+
+```
+// remove this line
+#import <Fabric/Fabric.h>
+
+// add this line
+#import <TwitterKit/TwitterKit.h>
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  ...
+  // remove this line
+  [Fabric with:@[[Twitter class]]];
+  ...
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+  // add this line
+  return [[Twitter sharedInstance] application:app openURL:url options:options];
+}
+```
+
+4. Update `Info.plist File` (`INFOPLIST_FILE`) (more ofter `Info.plist`):
+
+– Remove `Fabric` key and related object from `Info.plist`.
+
+– Add new URL type to `Info.plist`:
+
+```
+...
+<key>CFBundleURLTypes</key>
+<array>
+  ...
+  // add this object
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>twitterkit-<YOUR_TWITTER_KEY></string>
+    </array>
+  </dict>
+  ...
+</array>
+...
+```
+
+– Add twitter queries schemes `LSApplicationQueriesSchemes` to `Info.plist`:
+
+```
+...
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  // add this two lines
+  <string>twitter</string>
+  <string>twitterauth</string>
+</array>
+...
+```
+
 ## Usage
 
 ```js
