@@ -7,7 +7,7 @@ require 'fileutils'
 Dir.chdir('ios')
 
 @podfile_path = Pathname.pwd + 'Podfile'
-@pod_dep = "  pod 'TwitterKit', '~> 3.1'\n"
+@pod_dep = "  pod 'TwitterKit', '3.1.1'\n"
 
 @project_paths= Pathname.pwd.children.select { |pn| pn.extname == '.xcodeproj' }
 raise 'No Xcode project found' unless @project_paths.length > 0
@@ -38,7 +38,6 @@ if File.exist? @podfile_path
     end
   else
     puts "TwitterKit pod is already added in Podfile\n"
-    exit
   end
 else
   puts 'Adding Podfile to iOS project'

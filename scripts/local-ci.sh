@@ -28,6 +28,7 @@ files_to_copy=(
   android/app/build.gradle
   android/app/src/main/AndroidManifest.xml
   ios/example/Info.plist
+  ios/Podfile
   src
   scripts
   __tests__
