@@ -2,5 +2,6 @@
 platform :ios, '9.0'
 
 target 'example' do
-  pod 'TwitterKit', '~> 3.1'
+  pod 'TwitterKit', '3.1.1'
+  pod 'TwitterCore', '3.0.1'
 end

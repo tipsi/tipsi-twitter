@@ -14,6 +14,7 @@ init_new_example_project() {
     android/app/build.gradle
     android/app/src/main/AndroidManifest.xml
     ios/example/Info.plist
+    ios/Podfile
     src
     scripts
     __tests__
