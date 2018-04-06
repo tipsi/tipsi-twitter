@@ -15,16 +15,16 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
-
-import io.fabric.sdk.android.Fabric;
 
 /**
  * This is a {@link NativeModule} that allows JS to use LoginManager of Facebook Android SDK.
@@ -110,7 +110,12 @@ public class TPSTwitterModule extends ReactContextBaseJavaModule implements Life
 
   private void initTwitter(final ReadableMap map) {
     TwitterAuthConfig authConfig = new TwitterAuthConfig(map.getString("twitter_key"), map.getString("twitter_secret"));
-    Fabric.with(getCurrentActivity(), new Twitter(authConfig));
+    TwitterConfig config = new TwitterConfig.Builder(getReactApplicationContext())
+      .logger(new DefaultLogger(Log.DEBUG))
+      .twitterAuthConfig(authConfig)
+      .debug(true)
+      .build();
+    Twitter.initialize(config);
   }
 
   private TwitterAuthClient getTwitterAuthClient() {

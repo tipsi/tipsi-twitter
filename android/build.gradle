@@ -1,5 +1,6 @@
 buildscript {
   repositories {
+    jcenter()
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
   }
@@ -9,6 +10,7 @@ buildscript {
 }
 
 repositories {
+  jcenter()
   mavenCentral()
   maven { url 'https://maven.fabric.io/public' }
 }
@@ -43,10 +45,10 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
-  compile 'com.android.support:appcompat-v7:25.0.1'
+  compile 'com.android.support:appcompat-v7:26.1.0'
   compile 'com.facebook.react:react-native:+'
-  compile('com.twitter.sdk.android:twitter:2.3.0@aar') {
-    transitive = true;
+  compile('com.twitter.sdk.android:twitter:3.2.0@aar') {
+    transitive = true
   }
   testCompile 'junit:junit:4.12'
 }
