@@ -7,7 +7,8 @@ require 'fileutils'
 Dir.chdir('ios')
 
 @podfile_path = Pathname.pwd + 'Podfile'
-@pod_dep = "  pod 'TwitterKit', '~> 3.1'\n"
+@pod_dep_kit = "  pod 'TwitterKit', '3.1.1'\n"
+@pod_dep_core = "  pod 'TwitterCore', '3.0.1'\n"
 
 @project_paths= Pathname.pwd.children.select { |pn| pn.extname == '.xcodeproj' }
 raise 'No Xcode project found' unless @project_paths.length > 0
@@ -29,7 +30,7 @@ if File.exist? @podfile_path
       escaped_target_name = main_target.name.gsub(/'/, "\\\\\'")
       lines.each do |line|
         temp_file.puts(line)
-        temp_file.puts(@pod_dep) if line =~ /target\s+'#{escaped_target_name}'\s+do/
+        temp_file.puts(@pod_dep_kit) if line =~ /target\s+'#{escaped_target_name}'\s+do/
       end
       temp_file.close
       FileUtils.mv(temp_file.path, @podfile_path)
@@ -46,7 +47,8 @@ else
 
   podfile << "platform :ios, '9.0'\n"
   podfile << "\ntarget '#{main_target.name.gsub(/'/, "\\\\\'")}' do\n"
-  podfile << @pod_dep
+  podfile << @pod_dep_kit
+  podfile << @pod_dep_core
   podfile << "end\n"
   puts podfile
   File.write(@podfile_path, podfile)
