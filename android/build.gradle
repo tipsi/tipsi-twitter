@@ -20,12 +20,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'io.fabric'
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.1"
+  compileSdkVersion 26
+  buildToolsVersion "26.0.2"
 
   defaultConfig {
     minSdkVersion 16
-    targetSdkVersion 25
+    targetSdkVersion 26
     versionCode 1
     versionName "1.0"
 
@@ -47,7 +47,7 @@ dependencies {
   })
   compile 'com.android.support:appcompat-v7:26.1.0'
   compile 'com.facebook.react:react-native:+'
-  compile('com.twitter.sdk.android:twitter:3.2.0@aar') {
+  compile('com.twitter.sdk.android:twitter-core:3.2.0@aar') {
     transitive = true
   }
   testCompile 'junit:junit:4.12'
