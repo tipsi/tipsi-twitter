@@ -27,7 +27,7 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 /**
- * This is a {@link NativeModule} that allows JS to use LoginManager of Facebook Android SDK.
+ * This is a {@link NativeModule} that allows JS to use login feature of twitter-kit sdk.
  */
 public class TPSTwitterModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
@@ -113,7 +113,6 @@ public class TPSTwitterModule extends ReactContextBaseJavaModule implements Life
     TwitterConfig config = new TwitterConfig.Builder(getReactApplicationContext())
       .logger(new DefaultLogger(Log.DEBUG))
       .twitterAuthConfig(authConfig)
-      .debug(true)
       .build();
     Twitter.initialize(config);
   }
