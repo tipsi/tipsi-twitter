@@ -194,4 +194,9 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
     return errorCode;
 }
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 @end
