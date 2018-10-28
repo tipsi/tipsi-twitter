@@ -130,6 +130,19 @@ RCT_EXPORT_METHOD(login:(RCTPromiseResolveBlock)resolve
     }
 }
 
+RCT_EXPORT_METHOD(getEmailForCurrentUser:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    TWTRAPIClient *client = [TWTRAPIClient clientWithCurrentUser];
+    [client requestEmailForCurrentUser:^(NSString * _Nullable email, NSError * _Nullable error) {
+        if (error) {
+            NSError *rejectError = [self buildCannotLoadAccountErrorWithUnderlyingError:error];
+            reject([self buildErrorCodeForError:rejectError], rejectError.localizedDescription, rejectError);
+        } else {
+            resolve(email);
+        }
+    }];
+}
+
 #pragma mark - NSError
 
 - (NSError *)buildErrorWithCode:(NSInteger)code localizedDescription:(NSString *)localizedDescription {

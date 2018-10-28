@@ -19,6 +19,7 @@ import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterConfig;
@@ -92,6 +93,24 @@ public class TPSTwitterModule extends ReactContextBaseJavaModule implements Life
       });
 
   }
+
+  @ReactMethod
+  public void getEmailForCurrentUser(final Promise promise) {
+    TwitterSession twitterSession = TwitterCore.getInstance().getSessionManager().getActiveSession();
+    TwitterAuthClient authClient = new TwitterAuthClient();
+    authClient.requestEmail(twitterSession, new Callback < String > () {
+      @Override
+      public void success(Result < String > result) {
+        promise.resolve(result.data);
+      }
+
+      @Override
+      public void failure(TwitterException exception) {
+        promise.reject(TAG, exception.getMessage());
+      }
+    });
+  }
+
 
   @Override
   public void onHostResume() {
