@@ -1,5 +1,5 @@
 #import "TPSTwitterModule.h"
-#import <TwitterKit/TwitterKit.h>
+#import <TwitterKit/TWTRKit.h>
 #import <Social/Social.h>
 #import <React/RCTUtils.h>
 #import "OAuthCore.h"
