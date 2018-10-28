@@ -7,8 +7,8 @@ require 'fileutils'
 Dir.chdir('ios')
 
 @podfile_path = Pathname.pwd + 'Podfile'
-@pod_dep_kit = "  pod 'TwitterKit', '3.1.1'\n"
-@pod_dep_core = "  pod 'TwitterCore', '3.0.1'\n"
+@pod_dep_kit = "  pod 'TwitterKit', '3.4.0'\n"
+@pod_dep_core = "  pod 'TwitterCore', '3.2.0'\n"
 
 @project_paths= Pathname.pwd.children.select { |pn| pn.extname == '.xcodeproj' }
 raise 'No Xcode project found' unless @project_paths.length > 0
