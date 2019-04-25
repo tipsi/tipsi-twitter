@@ -55,8 +55,8 @@ Run react-native link tipsi-twitter so your project is linked against your Andro
 ...
 dependencies {
  ...
- compile project(':tipsi-twitter')
- compile "com.facebook.react:react-native:+"  // From node_modules
+ implementation project(':tipsi-twitter')
+ implementation "com.facebook.react:react-native:+"  // From node_modules
 }
 ```
 2. In your settings.gradle add:
